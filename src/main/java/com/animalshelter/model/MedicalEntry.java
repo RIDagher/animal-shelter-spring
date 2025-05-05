@@ -1,12 +1,23 @@
 package com.animalshelter.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Embeddable
 public class MedicalEntry {
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String vetName;
+
+    @Column(nullable = false)
     private LocalDate date;
+
+    public MedicalEntry() {}
 
     public MedicalEntry(String description, String veteranName, LocalDate date) {
         this.description = description;

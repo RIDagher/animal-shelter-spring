@@ -1,17 +1,19 @@
 package com.animalshelter.model;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Embeddable
 public class MedicalRecord {
-    private List<MedicalEntry> medicalEntries;
+    @ElementCollection
+    @CollectionTable(
+            name = "animal_medical_entries",
+            joinColumns = @JoinColumn(name = "animalId"))
+    private List<MedicalEntry> medicalEntries = new ArrayList<>();
 
-    public MedicalRecord() {
-       medicalEntries = new ArrayList<>();
-    }
+    public MedicalRecord() {}
 
     public List<MedicalEntry> getMedicalEntries() {
         return medicalEntries;
@@ -31,6 +33,4 @@ public class MedicalRecord {
             System.out.println("No medical records found");
         }
     }
-
-
 }

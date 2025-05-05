@@ -1,24 +1,37 @@
 package com.animalshelter.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity
+@Table(name = "volunteers")
 public class Volunteer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long volunteerId;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String phone;
 
-    private List<String> tasks;
-    private List<String> schedule;
+    @Transient
+    private List<String> tasks = new ArrayList<>();
+
+    @Transient
+    private List<String> schedule = new ArrayList<>();
+
+    public Volunteer() {}
 
     public Volunteer(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-
-        this.tasks = new ArrayList<>();
-        this.schedule = new ArrayList<>();
     }
 
     /**

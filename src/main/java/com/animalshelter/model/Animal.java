@@ -1,13 +1,13 @@
 package com.animalshelter.model;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "animal_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Animal {
+@Table(name = "animals")
+public abstract class Animal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long animalId;
@@ -31,8 +31,10 @@ public abstract class Animal {
     @Enumerated(EnumType.STRING)
     private Size animalSize;
 
+    @Column(nullable = false)
     private String animalColor;
 
+    @Column(nullable = false)
     private boolean isAdopted;
 
     @Embedded

@@ -1,20 +1,55 @@
 package com.animalshelter.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "adoption_forms")
 public class AdoptionForm {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long adoptionId;
+
+    @Column(nullable = false)
     private String applicantFirstName;
+
+    @Column(nullable = false)
     private String applicantLastName;
+
+    @Column(nullable = false)
     private String applicantEmail;
+
+    @Column(nullable = false)
     private String applicantPhone;
+
+    @Column(nullable = false)
     private String applicantAddress;
+
+    @Column(nullable = false)
     private String applicantCity;
+
+    @Column(nullable = false)
     private String applicantState;
+
+    @Column(nullable = false)
     private String applicantZip;
+
+    @Column(nullable = false)
     private String homeType;
+
+    @Column(nullable = false)
     private boolean hasOtherPet;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animalId", nullable = false)
     private Animal animal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AdoptionStatus status;
+
+    // Default constructor without parameters
+    public AdoptionForm() {}
 
     // Constructor
     public AdoptionForm(String firstName, String lastName, String email, String phone,

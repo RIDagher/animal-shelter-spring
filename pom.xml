@@ -35,7 +35,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- JavaFX Modules (separate dependencies for each module) -->
+		<!-- JavaFX dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -62,11 +62,6 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>${java.version}</release>
-                    <!-- Explicitly specify JavaFX modules for the compiler -->
-                    <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>javafx.controls,javafx.fxml</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -86,7 +81,6 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.kdaou.MainApp</mainClass>
-                    <executable>${java.home}/bin/java</executable>
                 </configuration>
             </plugin>
         </plugins>
