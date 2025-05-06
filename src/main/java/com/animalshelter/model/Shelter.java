@@ -3,14 +3,12 @@ package com.animalshelter.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Shelter {
     private List<Animal> animals;
 
 
     public Shelter() {
         animals = new ArrayList<>();
-
     }
 
     /**
@@ -33,7 +31,6 @@ public class Shelter {
         } else {
             System.out.println("Animal not found in shelter");
         }
-
     }
 
     /**
@@ -63,5 +60,4 @@ public class Shelter {
         }
         return null;
     }
-
 }
