@@ -32,12 +32,12 @@ public class AnimalShelterApplication {
             //System.out.println("Saved bird: " + parrot.getName());
 
             // Query all the birds
-            System.out.println("\nAll birds in database:");
-            repository.findAll().forEach(animal -> {
-                if (animal instanceof Bird) {
-                    System.out.println(animal.getName() + " (ID: " + animal.getAnimalId() + ")");
-                }
-            });
+            //System.out.println("\nAll birds in database:");
+            //repository.findAll().forEach(animal -> {
+            //    if (animal instanceof Bird) {
+            //        System.out.println(animal.getName() + " (ID: " + animal.getAnimalId() + ")");
+            //    }
+            //});
         };
     }
 }

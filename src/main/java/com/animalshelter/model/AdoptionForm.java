@@ -11,10 +11,7 @@ public class AdoptionForm {
     private Long adoptionId;
 
     @Column(nullable = false)
-    private String applicantFirstName;
-
-    @Column(nullable = false)
-    private String applicantLastName;
+    private String applicantName;
 
     @Column(nullable = false)
     private String applicantEmail;
@@ -24,15 +21,6 @@ public class AdoptionForm {
 
     @Column(nullable = false)
     private String applicantAddress;
-
-    @Column(nullable = false)
-    private String applicantCity;
-
-    @Column(nullable = false)
-    private String applicantState;
-
-    @Column(nullable = false)
-    private String applicantZip;
 
     @Column(nullable = false)
     private String homeType;
@@ -52,17 +40,12 @@ public class AdoptionForm {
     public AdoptionForm() {}
 
     // Constructor
-    public AdoptionForm(String firstName, String lastName, String email, String phone,
-                        String address, String city, String state, String zipCode,
-                        String homeType, boolean hasOtherPet, Animal animal) {
-        setApplicantFirstName(firstName);
-        setApplicantLastName(lastName);
+    public AdoptionForm(String firstName, String email, String phone,
+                        String address, String homeType, boolean hasOtherPet, Animal animal) {
+        setApplicantName(firstName);
         setApplicantEmail(email);
         setApplicantPhone(phone);
         setApplicantAddress(address);
-        setApplicantCity(city);
-        setApplicantState(state);
-        setApplicantZip(zipCode);
         setHomeType(homeType);
         setHasOtherPet(hasOtherPet);
         setAnimal(animal);
@@ -88,29 +71,16 @@ public class AdoptionForm {
 
     // Getters and Setters
 
-    public String getApplicantFirstName() {
-        return applicantFirstName;
+    public String getApplicantName() {
+        return applicantName;
     }
 
-    public void setApplicantFirstName(String applicantFirstName) {
-        if (applicantFirstName != null && !applicantFirstName.isEmpty()) {
-            this.applicantFirstName = applicantFirstName;
+    public void setApplicantName(String applicantName) {
+        if (applicantName != null && !applicantName.isEmpty()) {
+            this.applicantName = applicantName;
         } else {
             throw new IllegalArgumentException("applicantFirstName cannot be empty.");
         }
-    }
-
-    public String getApplicantLastName() {
-        return applicantLastName;
-    }
-
-    public void setApplicantLastName(String applicantLastName) {
-        if (applicantLastName != null && !applicantLastName.isEmpty()) {
-            this.applicantLastName = applicantLastName;
-        } else {
-            throw new IllegalArgumentException("applicantLastName cannot be empty.");
-        }
-
     }
 
     public String getApplicantEmail() {
@@ -148,37 +118,6 @@ public class AdoptionForm {
             this.applicantAddress = applicantAddress;
         } else {
             throw new IllegalArgumentException("applicantAddress cannot be empty.");
-        }
-    }
-
-    public String getApplicantCity() {
-        return applicantCity;
-    }
-
-    public void setApplicantCity(String applicantCity) {
-        this.applicantCity = applicantCity;
-    }
-
-    public String getApplicantState() {
-        return applicantState;
-    }
-
-    public void setApplicantState(String applicantState) {
-        if (applicantState != null && !applicantState.isEmpty()) {
-            this.applicantState = applicantState;
-        } else {
-            throw new IllegalArgumentException("applicantState cannot be empty.");
-        }
-
-    }
-
-    public String getApplicantZip() {
-        return applicantZip;
-    }
-
-    public void setApplicantZip(String applicantZip) {
-        if (applicantZip != null && !applicantZip.isEmpty()) {
-            this.applicantZip = applicantZip;
         }
     }
 
@@ -221,9 +160,9 @@ public class AdoptionForm {
     //  display method
     public void displayForm() {
         System.out.println("=== Adoption Form ===");
-        System.out.println("Applicant: " + applicantFirstName + " " + applicantLastName);
+        System.out.println("Applicant: " + applicantName);
         System.out.println("Email: " + applicantEmail + " | Phone: " + applicantPhone);
-        System.out.println("Address: " + applicantAddress + ", " + applicantCity + ", " + applicantState + " " + applicantZip);
+        System.out.println("Address: " + applicantAddress);
         System.out.println("Home Type: " + homeType);
         System.out.println("Has Other Pets: " + (hasOtherPet ? "Yes" : "No"));
         System.out.println("Animal Requested: " + animal.getName() + " (ID: " + animal.getAnimalId() + ")");

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.animalshelter.controller.MedicalFormController">
+    <VBox spacing="10" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <Label text="Add Medical Record" styleClass="header-label">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </Label>
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+            </rowConstraints>
+
+            <!-- Animal Selection -->
+            <Label text="Animal:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="animalComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <!-- Veterinarian Name -->
+            <Label text="Veterinarian Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="vetNameField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <!-- Date -->
+            <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <!-- Description -->
+            <Label text="Description:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <TextArea fx:id="descriptionArea" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                      wrapText="true" prefRowCount="3" />
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER" styleClass="button-bar">
+            <Button text="Save" onAction="#handleSave" />
+            <Button text="Cancel" onAction="#handleCancel" />
+        </HBox>
+    </VBox>
+</AnchorPane>

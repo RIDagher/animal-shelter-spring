@@ -29,12 +29,24 @@ public class MedicalEntry {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getVeteranName() {
         return vetName;
     }
 
+    public void setVetName(String veteranName) {
+        this.vetName = veteranName;
+    }
+
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public void displayEntry() {

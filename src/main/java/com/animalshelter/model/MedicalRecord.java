@@ -19,8 +19,8 @@ public class MedicalRecord {
         return medicalEntries;
     }
 
-    public void addMedicalEntry(String description, String vetName) {
-        medicalEntries.add(new MedicalEntry(description, vetName, LocalDate.now()));
+    public void addMedicalEntry(MedicalEntry medicalEntry) {
+        medicalEntries.add(medicalEntry);
     }
 
     public void listMedicalRecords() {

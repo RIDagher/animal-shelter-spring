@@ -23,7 +23,7 @@ public class AnimalShelterApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AnimalView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MedicalFormView.fxml"));
         loader.setControllerFactory(springContext::getBean);
 
         Parent root = loader.load();
