@@ -62,11 +62,6 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>${java.version}</release>
-                    <!-- Explicitly specify JavaFX modules for the compiler -->
-                    <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>javafx.controls,javafx.fxml</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
 
