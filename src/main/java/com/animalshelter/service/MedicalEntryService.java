@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class MedicalEntryService {
 
+    // Initializing Repositories
     private final MedicalEntryRepository medicalEntryRepository;
     private final AnimalRepository animalRepository;
 
@@ -22,13 +23,11 @@ public class MedicalEntryService {
         this.animalRepository = animalRepository;
     }
 
-    public List<MedicalEntry> getMedicalEntriesByAnimal(Long animalId) {
-        return medicalEntryRepository.findByAnimalId(animalId);
-    }
-
+    // Method to create a new medical entry for a given Animal
     public MedicalEntry createMedicalEntry(Long animalId, String vetName, LocalDate date, String description) {
-        Animal animal = animalRepository.findById(animalId).orElseThrow(() -> new IllegalArgumentException("Invalid animal ID"));
 
+        Animal animal = animalRepository.findById(animalId).orElseThrow(() -> new IllegalArgumentException("Invalid animal ID"));
+        // Creating MedicalEntry object
         MedicalEntry entry = new MedicalEntry(description, vetName, date, animal);
         return medicalEntryRepository.save(entry);
     }

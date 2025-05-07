@@ -10,6 +10,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "animal_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "animals")
 public abstract class Animal implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long animalId;
@@ -45,10 +46,21 @@ public abstract class Animal implements Serializable {
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MedicalEntry> medicalEntries = new ArrayList<>();
 
-    // Default constructor without parameters
+    /**
+     * Default Animal Constructor without parameters.
+     */
     public Animal() {}
 
-    // Constructor with parameters
+    /**
+     * Animal Constructor with parameters, set the animal's adopted status to false by default.
+     * @param aName
+     * @param aSpecies
+     * @param aAge
+     * @param aSex
+     * @param aBreed
+     * @param aSize
+     * @param aColor
+     */
     public Animal(String aName, Species aSpecies, int aAge, Sex aSex, String aBreed, Size aSize, String aColor) {
         setName(aName);
         setSpecies(aSpecies);
@@ -63,17 +75,42 @@ public abstract class Animal implements Serializable {
 
     public Long getId() {return animalId;}
 
+    /**
+     * Method to get the animal's ID.
+     * @return Long animalId
+     */
+    public Long getAnimalId() {
+        return animalId;
+    }
+
+    /**
+     * Method to get the animal's medical record.
+     * @return MedicalRecord medicalRecord
+     */
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
 
+    /**
+     * Method to get all the animal's medical entries.
+     * @return List<MedicalEntry> medicalEntries
+     */
     public List<MedicalEntry> getMedicalEntries() {
         return medicalEntries;
     }
 
+    /**
+     * Method to get the animal's nickname.
+     * @return String animalName
+     */
     public String getName() {
         return animalName;
     }
+
+    /**
+     * Method to set the animal's nickname.
+     * @param animalName
+     */
     public void setName(String animalName) {
         if(!animalName.isEmpty()){
             this.animalName = animalName;
@@ -82,9 +119,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's species.
+     * @return Species animalSpecies
+     */
     public Species getSpecies() {
         return animalSpecies;
     }
+
+    /**
+     * Method to set the animal's species.
+     * @param aSpecies
+     */
     public void setSpecies(Species aSpecies) {
         if(aSpecies != null){
             this.animalSpecies = aSpecies;
@@ -93,9 +139,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's age.
+     * @return int animalAge
+     */
     public int getAge() {
         return animalAge;
     }
+
+    /**
+     * Method to set the animal's age.
+     * @param animalAge
+     */
     public void setAge(int animalAge) {
         if(animalAge >= -1){
             this.animalAge = animalAge;
@@ -104,9 +159,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's sex.
+     * @return Sex animalSex
+     */
     public Sex getAnimalSex() {
         return animalSex;
     }
+
+    /**
+     * Method to set the animal's sex.
+     * @param animalSex
+     */
     public void setAnimalSex(Sex animalSex) {
         if(animalSex != null){
             this.animalSex = animalSex;
@@ -115,9 +179,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's breed.
+     * @return String animalBreed
+     */
     public String getBreed() {
         return animalBreed;
     }
+
+    /**
+     * Method to set the animal's breed.
+     * @param animalBreed
+     */
     public void setBreed(String animalBreed) {
         if(!animalBreed.isEmpty()){
             this.animalBreed = animalBreed;
@@ -126,9 +199,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's size.
+     * @return Size animalSize
+     */
     public Size getSize() {
         return animalSize;
     }
+
+    /**
+     * Method to set the animal's size.
+     * @param aSize
+     */
     public void setSize(Size aSize) {
         if(aSize != null){
             this.animalSize = aSize;
@@ -137,9 +219,18 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's color.
+     * @return String animalColor
+     */
     public String getColor() {
         return animalColor;
     }
+
+    /**
+     * Method to set the animal's color.
+     * @param aColor
+     */
     public void setColor(String aColor) {
         if(!aColor.isEmpty()){
             this.animalColor = aColor;
@@ -148,17 +239,24 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Method to get the animal's adoption status.
+     * @return boolean isAdopted
+     */
     public boolean isAdopted() {
         return isAdopted;
     }
+
+    /**
+     * Method to set the animal's adoption status.
+     * @param isAdopted
+     */
     public void setAdopted(boolean isAdopted) {
         this.isAdopted = isAdopted;
     }
 
-    public Long getAnimalId() {
-        return animalId;
-    }
-
-    // Abstract Method
+    /**
+     * Abstract method to display information on the animal.
+     */
     public abstract void displayInfo();
 }

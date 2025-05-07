@@ -2,7 +2,6 @@ package com.animalshelter.controller;
 
 import com.animalshelter.model.Animal;
 import com.animalshelter.repositories.AnimalRepository;
-import com.animalshelter.repositories.MedicalEntryRepository;
 import com.animalshelter.service.MedicalEntryService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -19,16 +18,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 public class MedicalFormController {
 
+    // Fxml file elements
     @FXML private ComboBox<Animal> animalComboBox;
     @FXML private TextField vetNameField;
     @FXML private DatePicker datePicker;
     @FXML private TextArea descriptionArea;
 
+    // Initializing Repositories and ApplicationContext
     private final MedicalEntryService medicalEntryService;
     private final AnimalRepository animalRepository;
     private final ApplicationContext springContext;
@@ -41,13 +41,12 @@ public class MedicalFormController {
         this.springContext = springContext;
     }
 
+    // Loading the animal data into the view
     @FXML
     public void initialize() {
-        animalComboBox.setItems(FXCollections.observableArrayList(
-                animalRepository.findAll()
-        ));
+        animalComboBox.setItems(FXCollections.observableArrayList(animalRepository.findAll()));
 
-        // Format animal display
+        // Formating the animals combo box list options
         animalComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Animal item, boolean empty) {
@@ -57,6 +56,7 @@ public class MedicalFormController {
             }
         });
 
+        // Formating the selected option in the animals combo box
         animalComboBox.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Animal item, boolean empty) {
@@ -66,12 +66,14 @@ public class MedicalFormController {
             }
         });
 
-        // Set default date to today
+        // Setting default date to today
         datePicker.setValue(LocalDate.now());
     }
 
+    // Method to save the medical entry
     @FXML
     private void handleSave() {
+        // Try catch block for error handling
         try {
             Animal selectedAnimal = animalComboBox.getValue();
             String vetName = vetNameField.getText().trim();
@@ -92,7 +94,7 @@ public class MedicalFormController {
                 return;
             }
 
-            // Save through service
+            // Save the medical entry using MedicalEntryService class
             medicalEntryService.createMedicalEntry(
                     selectedAnimal.getId(),
                     vetName,
@@ -100,17 +102,27 @@ public class MedicalFormController {
                     description
             );
 
-            // Clear form
+            // Clear the form after success
             vetNameField.clear();
             descriptionArea.clear();
             showAlert("Success", "Medical record saved successfully!");
 
         } catch (Exception e) {
+            // Showing error message in case of failure
             showAlert("Error", "Failed to save record: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
+    // Method to either show a success message or an error message
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    //Methods for the navbar
     @FXML
     private void goToHomePage(ActionEvent event) throws IOException {
         loadAndShowScene("/fxml/AnimalView.fxml", event);
@@ -138,13 +150,5 @@ public class MedicalFormController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

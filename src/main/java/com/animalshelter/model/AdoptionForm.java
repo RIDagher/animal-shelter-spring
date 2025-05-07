@@ -11,10 +11,7 @@ public class AdoptionForm {
     private Long adoptionId;
 
     @Column(nullable = false)
-    private String applicantFirstName;
-
-    @Column(nullable = false)
-    private String applicantLastName;
+    private String applicantName;
 
     @Column(nullable = false)
     private String applicantEmail;
@@ -24,18 +21,6 @@ public class AdoptionForm {
 
     @Column(nullable = false)
     private String applicantAddress;
-
-    @Column(nullable = false)
-    private String applicantCity;
-
-    @Column(nullable = false)
-    private String applicantState;
-
-    @Column(nullable = false)
-    private String applicantZip;
-
-    @Column(nullable = false)
-    private String homeType;
 
     @Column(nullable = false)
     private boolean hasOtherPet;
@@ -48,28 +33,34 @@ public class AdoptionForm {
     @Column(nullable = false)
     private AdoptionStatus status;
 
-    // Default constructor without parameters
+    /**
+     * Default AdoptionForm Constructor without parameters.
+     */
     public AdoptionForm() {}
 
-    // Constructor
-    public AdoptionForm(String firstName, String lastName, String email, String phone,
-                        String address, String city, String state, String zipCode,
-                        String homeType, boolean hasOtherPet, Animal animal) {
-        setApplicantFirstName(firstName);
-        setApplicantLastName(lastName);
+    /**
+     * AdoptionForm Constructor with parameters, sets the adoption status to pending by default.
+     * @param firstName
+     * @param email
+     * @param phone
+     * @param address
+     * @param hasOtherPet
+     * @param animal
+     */
+    public AdoptionForm(String firstName, String email, String phone,
+                        String address, boolean hasOtherPet, Animal animal) {
+        setApplicantName(firstName);
         setApplicantEmail(email);
         setApplicantPhone(phone);
         setApplicantAddress(address);
-        setApplicantCity(city);
-        setApplicantState(state);
-        setApplicantZip(zipCode);
-        setHomeType(homeType);
         setHasOtherPet(hasOtherPet);
         setAnimal(animal);
-        this.status = AdoptionStatus.PENDING; // default
+        this.status = AdoptionStatus.PENDING;
     }
 
-    // Approve and reject methods
+    /**
+     * Method to set the adoption status of an AdoptionForm to APPROVED.
+     */
     public void approve() {
         if(animal.isAdopted()) {
             System.out.println("Cannot approve an adoption: " + animal.getName() + " is already adopted.");
@@ -81,42 +72,52 @@ public class AdoptionForm {
 
     }
 
+    /**
+     * Method to set the adoption status of an AdoptionForm to REJECTED.
+     */
     public void reject() {
         status = AdoptionStatus.REJECTED;
         System.out.println("Adoption rejected for " + animal.getName() + ".");
     }
 
-    // Getters and Setters
+    /**
+     * Method to get an AdoptionForm's ID.
+     * @return Long adoptionId
+     */
+    public Long getAdoptionId() {return adoptionId;}
 
-    public String getApplicantFirstName() {
-        return applicantFirstName;
+    /**
+     * Method to get an AdoptionForm's applicant name.
+     * @return String applicantName
+     */
+    public String getApplicantName() {
+        return applicantName;
     }
 
-    public void setApplicantFirstName(String applicantFirstName) {
-        if (applicantFirstName != null && !applicantFirstName.isEmpty()) {
-            this.applicantFirstName = applicantFirstName;
+    /**
+     * Method to set an AdoptionForm's applicant name.
+     * @param applicantName
+     */
+    public void setApplicantName(String applicantName) {
+        if (applicantName != null && !applicantName.isEmpty()) {
+            this.applicantName = applicantName;
         } else {
-            throw new IllegalArgumentException("applicantFirstName cannot be empty.");
+            throw new IllegalArgumentException("applicantName cannot be empty.");
         }
     }
 
-    public String getApplicantLastName() {
-        return applicantLastName;
-    }
-
-    public void setApplicantLastName(String applicantLastName) {
-        if (applicantLastName != null && !applicantLastName.isEmpty()) {
-            this.applicantLastName = applicantLastName;
-        } else {
-            throw new IllegalArgumentException("applicantLastName cannot be empty.");
-        }
-
-    }
-
+    /**
+     * Method to get an AdoptionForm's applicant email.
+     * @return String applicantEmail
+     */
     public String getApplicantEmail() {
         return applicantEmail;
     }
 
+    /**
+     * Method to set an AdoptionForm's applicant email.
+     * @param applicantEmail
+     */
     public void setApplicantEmail(String applicantEmail) {
         if (applicantEmail != null && !applicantEmail.isEmpty()) {
             this.applicantEmail = applicantEmail;
@@ -126,10 +127,18 @@ public class AdoptionForm {
 
     }
 
+    /**
+     * Method to get an AdoptionForm's applicant phone.
+     * @return String applicantPhone
+     */
     public String getApplicantPhone() {
         return applicantPhone;
     }
 
+    /**
+     * Method to set an AdoptionForm's applicant phone.
+     * @param applicantPhone
+     */
     public void setApplicantPhone(String applicantPhone) {
         if (applicantPhone != null && !applicantPhone.isEmpty()) {
             this.applicantPhone = applicantPhone;
@@ -139,10 +148,18 @@ public class AdoptionForm {
 
     }
 
+    /**
+     * Method to get an AdoptionForm's applicant address.
+     * @return String applicantAddress
+     */
     public String getApplicantAddress() {
         return applicantAddress;
     }
 
+    /**
+     * Method to set an AdoptionForm's applicant address.
+     * @param applicantAddress
+     */
     public void setApplicantAddress(String applicantAddress) {
         if (applicantAddress != null && !applicantAddress.isEmpty()) {
             this.applicantAddress = applicantAddress;
@@ -151,80 +168,62 @@ public class AdoptionForm {
         }
     }
 
-    public String getApplicantCity() {
-        return applicantCity;
-    }
-
-    public void setApplicantCity(String applicantCity) {
-        this.applicantCity = applicantCity;
-    }
-
-    public String getApplicantState() {
-        return applicantState;
-    }
-
-    public void setApplicantState(String applicantState) {
-        if (applicantState != null && !applicantState.isEmpty()) {
-            this.applicantState = applicantState;
-        } else {
-            throw new IllegalArgumentException("applicantState cannot be empty.");
-        }
-
-    }
-
-    public String getApplicantZip() {
-        return applicantZip;
-    }
-
-    public void setApplicantZip(String applicantZip) {
-        if (applicantZip != null && !applicantZip.isEmpty()) {
-            this.applicantZip = applicantZip;
-        }
-    }
-
-    public String getHomeType() {
-        return homeType;
-    }
-
-    public void setHomeType(String homeType) {
-        if (homeType != null && !homeType.isEmpty()) {
-            this.homeType = homeType;
-        } else {
-            throw new IllegalArgumentException("homeType cannot be empty.");
-        }
-    }
-
+    /**
+     * Method to get a boolean of if an AdoptionForm's applicant has another pet.
+     * @return boolean hasOtherPet
+     */
     public boolean getHasOtherPet() {
         return hasOtherPet;
     }
 
+    /**
+     * Method to set if an AdoptionForm's applicant has another pet.
+     * @param hasOtherPet
+     */
     public void setHasOtherPet(boolean hasOtherPet) {
         this.hasOtherPet = hasOtherPet;
     }
 
+    /**
+     * Method to get an AdoptionForm's animal being requested for adoption.
+     * @return Animal animal
+     */
     public Animal getAnimal() {
         return animal;
     }
 
+    /**
+     * Method to set an AdoptionForm's animal requested for adoption.
+     * @param animal
+     */
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }
 
+    /**
+     * Method to get an AdoptionForm's approval status.
+     * @return AdoptionStatus status
+     */
     public AdoptionStatus getStatus() {
         return status;
     }
 
+    /**
+     * Method to set an AdoptionForm's approval status.
+     * @param status
+     */
     public void setStatus(AdoptionStatus status) {
         this.status = status;
     }
 
-    //  display method
+    /**
+     * Method to display the form's information.
+     */
     public void displayForm() {
         System.out.println("=== Adoption Form ===");
-        System.out.println("Applicant: " + applicantFirstName + " " + applicantLastName);
+        System.out.println("Applicant: " + applicantName);
         System.out.println("Email: " + applicantEmail + " | Phone: " + applicantPhone);
-        System.out.println("Address: " + applicantAddress + ", " + applicantCity + ", " + applicantState + " " + applicantZip);
-        System.out.println("Home Type: " + homeType);
+        System.out.println("Address: " + applicantAddress);
         System.out.println("Has Other Pets: " + (hasOtherPet ? "Yes" : "No"));
         System.out.println("Animal Requested: " + animal.getName() + " (ID: " + animal.getAnimalId() + ")");
         System.out.println("Status: " + status);
