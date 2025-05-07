@@ -45,39 +45,40 @@ public class MedicalRecordController {
         for (Animal animal : animals) {
             animalSelector.getItems().add(animal.getName());
         }
+    }
 
-        animalSelector.setOnAction(e -> {
-            String selectedName = animalSelector.getValue();
-            Animal animal = animalRepository.findAll()
-                    .stream()
-                    .filter(a -> a.getName().equals(selectedName))
-                    .findFirst()
-                    .orElse(null);
+    @FXML
+    private void onAnimalSelected(ActionEvent event) {
+        String selectedName = animalSelector.getValue();
+        Animal animal = animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getName().equals(selectedName))
+                .findFirst()
+                .orElse(null);
 
-            if (animal != null) {
-                nameLabel.setText(animal.getName());
-                speciesLabel.setText(animal.getSpecies().toString());
-                ageLabel.setText(String.valueOf(animal.getAge()));
-                breedLabel.setText(animal.getBreed());
-                healthStatusLabel.setText("Unknown");
+        if (animal != null) {
+            nameLabel.setText(animal.getName());
+            speciesLabel.setText(animal.getSpecies().toString());
+            ageLabel.setText(String.valueOf(animal.getAge()));
+            breedLabel.setText(animal.getBreed());
+            healthStatusLabel.setText("Unknown");
 
-                vaccinationList.getItems().setAll(
-                        animal.getMedicalRecord().getMedicalEntries()
-                                .stream()
-                                .filter(m -> m.getDescription().toLowerCase().contains("vaccine"))
-                                .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
-                                .toList()
-                );
+            vaccinationList.getItems().setAll(
+                    animal.getMedicalRecord().getMedicalEntries()
+                            .stream()
+                            .filter(m -> m.getDescription().toLowerCase().contains("vaccine"))
+                            .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
+                            .toList()
+            );
 
-                treatmentList.getItems().setAll(
-                        animal.getMedicalRecord().getMedicalEntries()
-                                .stream()
-                                .filter(m -> !m.getDescription().toLowerCase().contains("vaccine"))
-                                .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
-                                .toList()
-                );
-            }
-        });
+            treatmentList.getItems().setAll(
+                    animal.getMedicalRecord().getMedicalEntries()
+                            .stream()
+                            .filter(m -> !m.getDescription().toLowerCase().contains("vaccine"))
+                            .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
+                            .toList()
+            );
+        }
     }
 
     @FXML

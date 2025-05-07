@@ -43,7 +43,7 @@
          <center>
             <VBox alignment="CENTER" prefHeight="392.0" prefWidth="633.0" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBox fx:id="animalSelector" prefHeight="40.0" prefWidth="180.0" promptText="Animal Selector" styleClass="combo-box">
+                  <ComboBox fx:id="animalSelector" onAction="#onAnimalSelected" prefHeight="40.0" prefWidth="180.0" promptText="Animal Selector" styleClass="combo-box">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>
@@ -70,7 +70,7 @@
                         <Label text="Breed:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <Label fx:id="breedLabel" prefHeight="18.0" prefWidth="61.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label text="Health Status:" GridPane.rowIndex="2" />
-                        <Label fx:id="healthStatusLabel" prefHeight="18.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="healthStatusLabel" prefHeight="18.0" prefWidth="73.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="160.0" right="160.0" top="10.0" />
@@ -80,7 +80,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" spacing="10.0">
                            <children>
-                              <Label text="Vaccination History" />
+                              <Label style="-fx-font-weight: bold;" text="Vaccination History" />
                               <ListView fx:id="vaccinationList" prefHeight="49.0" prefWidth="250" />
                               <Button fx:id="btnAddNewVacination" mnemonicParsing="false" onAction="#handleAddVaccination" text="Add New" />
                            </children>
@@ -91,7 +91,7 @@
                         <Region prefHeight="160.0" prefWidth="48.0" />
                         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" spacing="10.0">
                            <children>
-                              <Label text="Treatment History" />
+                              <Label style="-fx-font-weight: bold;" text="Treatment History" />
                               <ListView fx:id="treatmentList" prefHeight="49.0" prefWidth="250.0" />
                               <Button fx:id="btnAddNewTreatment" mnemonicParsing="false" onAction="#handleAddTreatment" text="Add New" />
                            </children>
