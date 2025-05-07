@@ -21,12 +21,14 @@ public class AnimalShelterApplication {
     @Bean
     public CommandLineRunner demo(AnimalRepository repository) {
         return args -> {
-            //System.out.println("Bird Database Creation");
+            System.out.println("Bird Database Creation");
 
-            // Create and save a bird
-            //Bird parrot = new Bird("Polly", 2, Sex.Female, "Parrot",
-                    //Size.Small, "Green", true, "Curved");
-            //parrot.getMedicalRecord().addMedicalEntry("Vaccinated 2024-01-01", "Dr. Demers");
+            //Create and save a bird
+            //Bird parrot = new Bird("Birdie", 6, Sex.Female, "Pigeon",
+                    //Size.Small, "Grey", true, "Curved");
+            //parrot.getMedicalRecord().addMedicalEntry("Vaccinated 2023-01-01", "Dr. Demers");
+
+
 
             //repository.save(parrot);
             //System.out.println("Saved bird: " + parrot.getName());
