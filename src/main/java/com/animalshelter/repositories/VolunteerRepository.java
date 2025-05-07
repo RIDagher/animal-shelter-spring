@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
 
-    List<Volunteer> findVolunteerByName(String name);
+
+    List<Volunteer> findVolunteerByEmail(String email);
 }
