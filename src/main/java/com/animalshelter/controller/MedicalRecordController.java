@@ -64,7 +64,7 @@ public class MedicalRecordController {
             healthStatusLabel.setText("Unknown");
 
             vaccinationList.getItems().setAll(
-                    animal.getMedicalRecord().getMedicalEntries()
+                    animal.getMedicalEntries()
                             .stream()
                             .filter(m -> m.getDescription().toLowerCase().contains("vaccine"))
                             .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
@@ -72,7 +72,7 @@ public class MedicalRecordController {
             );
 
             treatmentList.getItems().setAll(
-                    animal.getMedicalRecord().getMedicalEntries()
+                    animal.getMedicalEntries()
                             .stream()
                             .filter(m -> !m.getDescription().toLowerCase().contains("vaccine"))
                             .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")

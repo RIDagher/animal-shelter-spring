@@ -1,37 +1,34 @@
 package com.animalshelter.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-@Embeddable
 public class MedicalRecord {
-    @ElementCollection
-    @CollectionTable(
-            name = "animal_medical_entries",
-            joinColumns = @JoinColumn(name = "animalId"))
-    private List<MedicalEntry> medicalEntries = new ArrayList<>();
 
-    public MedicalRecord() {}
+    private final Animal animal;
+
+    public MedicalRecord(Animal animal) {
+        this.animal = animal;
+    }
 
     public List<MedicalEntry> getMedicalEntries() {
-        return medicalEntries;
+        return animal.getMedicalEntries();
     }
 
     public void addMedicalEntry(String description, String vetName) {
-        medicalEntries.add(new MedicalEntry(description, vetName, LocalDate.now()));
+        MedicalEntry newEntry = new MedicalEntry(description, vetName, LocalDate.now(), animal);
+        animal.getMedicalEntries().add(newEntry);
     }
 
     public void listMedicalRecords() {
-        if(!medicalEntries.isEmpty()) {
-            for (MedicalEntry medicalEntry : medicalEntries) {
-                System.out.println("Medical History: ");
-                medicalEntry.displayEntry();
+        List<MedicalEntry> entries = getMedicalEntries();
+        if (!entries.isEmpty()) {
+            System.out.println("Medical History:");
+            for (MedicalEntry entry : entries) {
+                entry.displayEntry();
             }
         } else {
-            System.out.println("No medical records found");
+            System.out.println("No medical records found.");
         }
     }
 }
-

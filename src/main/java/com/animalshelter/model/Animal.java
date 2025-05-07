@@ -2,6 +2,8 @@ package com.animalshelter.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -37,8 +39,11 @@ public abstract class Animal implements Serializable {
     @Column(nullable = false)
     private boolean isAdopted;
 
-    @Embedded
-    private MedicalRecord medicalRecord = new MedicalRecord();
+    @Transient
+    private MedicalRecord medicalRecord = new MedicalRecord(this);
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<MedicalEntry> medicalEntries = new ArrayList<>();
 
     // Default constructor without parameters
     public Animal() {}
@@ -58,6 +63,10 @@ public abstract class Animal implements Serializable {
 
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
+    }
+
+    public List<MedicalEntry> getMedicalEntries() {
+        return medicalEntries;
     }
 
     public String getName() {

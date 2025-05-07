@@ -2,6 +2,7 @@ package com.animalshelter;
 
 import com.animalshelter.model.*;
 import com.animalshelter.repositories.AnimalRepository;
+import com.animalshelter.repositories.MedicalEntryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,27 +20,35 @@ public class AnimalShelterApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(AnimalRepository repository) {
+    public CommandLineRunner demo(AnimalRepository animalRepo, MedicalEntryRepository medicalRepo) {
         return args -> {
-            System.out.println("Bird Database Creation");
+            //System.out.println("Bird Database Creation");
 
-            //Create and save a bird
-            //Bird parrot = new Bird("Birdie", 6, Sex.Female, "Pigeon",
+
+            //Bird parrot = new Bird("J", 6, Sex.Female, "Pigeon",
                     //Size.Small, "Grey", true, "Curved");
-            //parrot.getMedicalRecord().addMedicalEntry("Vaccinated 2023-01-01", "Dr. Demers");
+
+            //animalRepo.save(parrot);
 
 
+            //MedicalEntry entry = new MedicalEntry(
+                    //"Vaccinated 2023-01-01",
+                    //"Dr. Demers",
+                    //LocalDate.of(2023, 1, 1),
+                    //parrot
+            //);
+            //medicalRepo.save(entry);
 
-            //repository.save(parrot);
             //System.out.println("Saved bird: " + parrot.getName());
 
             // Query all the birds
             System.out.println("\nAll birds in database:");
-            repository.findAll().forEach(animal -> {
+            animalRepo.findAll().forEach(animal -> {
                 if (animal instanceof Bird) {
                     System.out.println(animal.getName() + " (ID: " + animal.getAnimalId() + ")");
                 }
             });
         };
     }
+
 }
