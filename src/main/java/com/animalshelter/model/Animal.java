@@ -61,6 +61,8 @@ public abstract class Animal implements Serializable {
         setAdopted(false);
     }
 
+    public Long getId() {return animalId;}
+
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
