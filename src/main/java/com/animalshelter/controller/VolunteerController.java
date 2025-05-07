@@ -37,11 +37,16 @@ public class VolunteerController {
     private Button searchVolunteerButton;
 
     @FXML
+    private Button resetButton;
+
+    @FXML
     private ListView<String> volunteerList;
 
     @FXML
     public void initialize() {
         loadVolunteers();
+        setUpSearchHandler();
+        resetForm();
 
 
         addVolunteerButton.setOnAction(e -> {
@@ -51,16 +56,23 @@ public class VolunteerController {
 
             if (!volunteerName.isEmpty() && !volunteerEmail.isEmpty() && !volunteerPhone.isEmpty()) {
                 Volunteer newVolunteer = new Volunteer(volunteerName, volunteerEmail, volunteerPhone);
-                volunteerService.addVolunteer(newVolunteer);
-                loadVolunteers();
-                nameField.clear();
-                emailField.clear();
-                phoneField.clear();
+                try {
+                    volunteerService.addVolunteer(newVolunteer);
+                    loadVolunteers();
+                    nameField.clear();
+                    emailField.clear();
+                    phoneField.clear();
 
+                    // Return Error to user if email already exists in database
+                } catch (RuntimeException exception) {
+                    volunteerList.getItems().clear();
+                    volunteerList.getItems().add("Error: " + exception.getMessage());
+                }
             }
         });
     }
 
+    // loadVolunteers method to display all volunteers
     private void loadVolunteers() {
         volunteerList.getItems().clear();
 
@@ -71,23 +83,77 @@ public class VolunteerController {
                 volunteerList.getItems().add("No volunteers found");
             } else {
                 for (Volunteer volunteer : volunteers) {
-                    volunteerList.getItems().add(
-                            volunteer.getName() + " | " + volunteer.getEmail() + " | " + volunteer.getPhone()
+                    String display = String.format(
+                            "👤 %-20s\n📧 %-25s\n📞 %s",
+                            volunteer.getName(),
+                            volunteer.getEmail(),
+                            volunteer.getPhone()
                     );
+                    volunteerList.getItems().add(display);
                 }
             }
         } catch (Exception e) {
             volunteerList.getItems().add("Failed to load volunteers: " + e.getMessage());
         }
-
     }
 
-//    private void findVolunteerByEmail(String email) {
-//        volunteerService.getVolunteerByEmail(email);
-//        if (volunteerService.getVolunteerByEmail(email) != null) {
-//            volunteerList.getItems().clear();
-//        } else {
-//            volunteerList.getItems().add("No volunteers found");
-//        }
-//    }
+
+    // setUpSearchHandler method the search a volunteer by name and by email
+    private void setUpSearchHandler() {
+        searchVolunteerButton.setOnAction(e -> {
+            volunteerList.getItems().clear();
+
+
+            if (!emailField.getText().isEmpty()) {
+                // Search by email
+                volunteerService.getVolunteerByEmail(emailField.getText()).ifPresent(volunteer -> {
+                    nameField.setText(volunteer.getName());
+                    emailField.setText(volunteer.getEmail());
+                    phoneField.setText(volunteer.getPhone());
+                    String display = String.format(         "👤 %-20s\n📧 %-25s\n📞 %s",
+                            volunteer.getName(),
+                            volunteer.getEmail(),
+                            volunteer.getPhone()
+                    );
+                    volunteerList.getItems().add(display);
+
+                });
+            } else if (!nameField.getText().isEmpty()) {
+                // Search by name
+                List<Volunteer> result = volunteerService.getVolunteerByName(nameField.getText());
+                if (result.isEmpty()) {
+                    volunteerList.getItems().add("No volunteers found");
+                } else {
+                    for (Volunteer volunteer : result) {
+                        String display = String.format(         "👤 %-20s\n📧 %-25s\n📞 %s",
+                                volunteer.getName(),
+                                volunteer.getEmail(),
+                                volunteer.getPhone()
+                        );
+                        volunteerList.getItems().add(display);
+                    }
+                }
+            } else {
+                volunteerList.getItems().add("Enter a Name or Email to search for volunteers");
+            }
+        });
+    }
+
+    // resetForm method to reset the volunteer form
+    private void resetForm() {
+
+        resetButton.setOnAction(e -> {
+            // Clear List
+            volunteerList.getItems().clear();
+
+            // Clear Fields
+            nameField.clear();
+            emailField.clear();
+            phoneField.clear();
+
+            // Load Volunteer List
+            loadVolunteers();
+        });
+    }
 }
+

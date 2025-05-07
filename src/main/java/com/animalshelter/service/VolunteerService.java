@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VolunteerService {
@@ -16,11 +17,19 @@ public class VolunteerService {
         return volunteerRepository.findAll();
     }
 
-    public List<Volunteer> getVolunteerByEmail(String email) {
-        return volunteerRepository.findVolunteerByEmail(email);
+    public Optional<Volunteer> getVolunteerByEmail(String volunteerEmail) {
+        return volunteerRepository.findVolunteerByEmail(volunteerEmail);
+    }
+
+    public List<Volunteer> getVolunteerByName(String name) {
+        return volunteerRepository.findVolunteersByNameContainingIgnoreCase(name);
     }
 
     public Volunteer addVolunteer(Volunteer volunteer) {
+
+        if (volunteerRepository.findVolunteerByEmail(volunteer.getEmail()).isPresent()) {
+            throw new RuntimeException("Volunteer already exists");
+        }
         return volunteerRepository.save(volunteer);
     }
 }
