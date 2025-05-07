@@ -1,12 +1,16 @@
 package com.animalshelter.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@Embeddable
+@Entity
+@Table(name = "animal_medical_entries")
 public class MedicalEntry {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String description;
@@ -17,12 +21,17 @@ public class MedicalEntry {
     @Column(nullable = false)
     private LocalDate date;
 
+    @ManyToOne
+    @JoinColumn(name = "animal_id", nullable = false)
+    private Animal animal;
+
     public MedicalEntry() {}
 
-    public MedicalEntry(String description, String veteranName, LocalDate date) {
+    public MedicalEntry(String description, String vetName, LocalDate date, Animal animal) {
         this.description = description;
-        this.vetName = veteranName;
+        this.vetName = vetName;
         this.date = date;
+        this.animal = animal;
     }
 
     public String getDescription() {
@@ -35,6 +44,10 @@ public class MedicalEntry {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public Animal getAnimal() {
+        return animal;
     }
 
     public void displayEntry() {

@@ -2,6 +2,7 @@ package com.animalshelter;
 
 import com.animalshelter.model.*;
 import com.animalshelter.repositories.AnimalRepository;
+import com.animalshelter.repositories.MedicalEntryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,25 +20,34 @@ public class AnimalShelterApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(AnimalRepository repository) {
+    public CommandLineRunner demo(AnimalRepository animalRepo, MedicalEntryRepository medicalRepo) {
         return args -> {
-            //System.out.println("Bird Database Creation");
+            /*System.out.println("Database Creation");
 
-            // Create and save a bird
-            //Bird parrot = new Bird("Polly", 2, Sex.Female, "Parrot",
-                    //Size.Small, "Green", true, "Curved");
-            //parrot.getMedicalRecord().addMedicalEntry("Vaccinated 2024-01-01", "Dr. Demers");
+            Bird parrot = new Bird("Snowie", 6, Sex.Female, "Pigeon",
+                    Size.Small, "Grey", true, "Curved");
 
-            //repository.save(parrot);
-            //System.out.println("Saved bird: " + parrot.getName());
+            animalRepo.save(parrot);
+
+
+            MedicalEntry entry = new MedicalEntry(
+                    "Vaccinated 2023-01-01",
+                    "Dr. Demers",
+                    LocalDate.of(2023, 1, 1),
+                    parrot
+            );
+            medicalRepo.save(entry);
+
+            System.out.println("Saved bird: " + parrot.getName());
 
             // Query all the birds
             System.out.println("\nAll birds in database:");
-            repository.findAll().forEach(animal -> {
+            animalRepo.findAll().forEach(animal -> {
                 if (animal instanceof Bird) {
                     System.out.println(animal.getName() + " (ID: " + animal.getAnimalId() + ")");
                 }
-            });
+            });*/
         };
     }
+
 }

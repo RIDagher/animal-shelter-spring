@@ -9,14 +9,28 @@ public class Bird extends Animal implements Adoptable {
     private boolean canFly;
     private String beakType;
 
-    // Default constructor without parameters
+    /**
+     * Default Bird Constructor with no parameters.
+     */
     public Bird() {}
 
+    /**
+     * Bird Constructor with parameters, which uses the Animal superclass constructor.
+     * @param aName
+     * @param aAge
+     * @param aSex
+     * @param aBreed
+     * @param aSize
+     * @param aColor
+     * @param aCanFly
+     * @param aBeakType
+     */
     public Bird(String aName, int aAge, Sex aSex, String aBreed, Size aSize, String aColor, boolean aCanFly, String aBeakType) {
         super(aName, Species.Bird, aAge, aSex, aBreed, aSize, aColor);
         setCanFly(aCanFly);
         setBeakType(aBeakType);
     }
+
 
     public boolean isCanFly() {
         return canFly;
@@ -47,7 +61,9 @@ public class Bird extends Animal implements Adoptable {
     @Override
     public void returnToShelter() {}
 
-    // Implements Abstract displayInfo method from Animal class
+    /**
+     * Abstract method to display information on the Animal.
+     */
     @Override
     public void displayInfo() {
         System.out.println("Bird [ID: " + getAnimalId() +

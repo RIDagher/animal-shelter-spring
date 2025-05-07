@@ -3,20 +3,20 @@ package com.animalshelter.controller;
 import com.animalshelter.model.Animal;
 import com.animalshelter.model.Species;
 import com.animalshelter.repositories.AnimalRepository;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,14 +24,30 @@ import java.util.List;
 @Component
 public class AnimalController {
 
+    @FXML private Button btnCats;
+    @FXML private Button btnDogs;
+    @FXML private Button btnBirds;
+    @FXML private GridPane animalGrid;
+    @FXML private Button prevButton;
+    @FXML private Button nextButton;
+
+    private final AnimalRepository animalRepository;
+    private final ApplicationContext springContext;
+
+    private List<Animal> currentAnimalList;
+    private int currentPage = 0;
+    private final int itemsPerPage = 6;
+
+    @Autowired
+    public AnimalController(AnimalRepository animalRepository, ApplicationContext springContext) {
+        this.animalRepository = animalRepository;
+        this.springContext = springContext;
+    }
+
     @FXML
-    private Button btnCats;
-    @FXML
-    private Button btnDogs;
-    @FXML
-    private Button btnBirds;
-    @FXML
-    private GridPane animalGrid;
+    public void initialize() {
+        loadAnimals("All");
+    }
 
     @FXML
     private void handleCatClick() {
@@ -49,40 +65,72 @@ public class AnimalController {
     }
 
     @FXML
+    private void handlePreviousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            updateGrid();
+        }
+    }
+
+    @FXML
+    private void handleNextPage() {
+        if ((currentPage + 1) * itemsPerPage < currentAnimalList.size()) {
+            currentPage++;
+            updateGrid();
+        }
+    }
+
+    @FXML
     private void goToHomePage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AnimalView.fxml"));
+        loadAndShowScene("/fxml/AnimalView.fxml", event);
+    }
+
+    @FXML
+    private void goToAdoptions(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AdoptionsView.fxml", event);
+    }
+
+    @FXML
+    private void goToVolunteers(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/VolunteerView.fxml", event);
+    }
+
+    @FXML
+    private void goToMedical(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/MedicalRecordView.fxml", event);
+    }
+
+    private void loadAndShowScene(String fxmlPath, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        loader.setControllerFactory(springContext::getBean);
+        Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    @FXML
-    public void initialize() {
-        loadAnimals("All");
-    }
-
-    @Autowired
-    private AnimalRepository animalRepository;
-
-
     private void loadAnimals(String type) {
-        animalGrid.getChildren().clear();
-
-        List<Animal> animals;
-
         if (type.equals("All")) {
-            animals = animalRepository.findAll();
+            currentAnimalList = animalRepository.findAll();
         } else {
             Species species = Species.valueOf(type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase());
-            animals = animalRepository.findByAnimalSpecies(species);
+            currentAnimalList = animalRepository.findByAnimalSpecies(species);
         }
+        currentPage = 0;
+        updateGrid();
+    }
+
+    private void updateGrid() {
+        animalGrid.getChildren().clear();
+
+        int start = currentPage * itemsPerPage;
+        int end = Math.min(start + itemsPerPage, currentAnimalList.size());
 
         int col = 0;
         int row = 0;
 
-        for (int i = 0; i < Math.min(animals.size(), 6); i++) {
-
-            Animal animal = animals.get(i);
+        for (int i = start; i < end; i++) {
+            Animal animal = currentAnimalList.get(i);
 
             VBox card = new VBox();
             card.getStyleClass().add("animal-card");
@@ -100,5 +148,8 @@ public class AnimalController {
                 row++;
             }
         }
+
+        prevButton.setDisable(currentPage == 0);
+        nextButton.setDisable(end >= currentAnimalList.size());
     }
 }

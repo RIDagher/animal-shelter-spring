@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
-
-    List<Animal> findByAnimalName(String name);
+    List<Animal> findByAnimalSpecies(Species animalSpecies);
+    Optional<Animal> findByAnimalName(String animalName);
+    List<Animal> findByIsAdoptedFalse();
 }

@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -29,10 +30,14 @@ public class MedicalRecordController {
     @FXML private ListView<String> vaccinationList;
     @FXML private ListView<String> treatmentList;
 
+    private final AnimalRepository animalRepository;
+    private final ApplicationContext springContext;
 
     @Autowired
-    private AnimalRepository animalRepository;
-
+    public MedicalRecordController(AnimalRepository animalRepository, ApplicationContext springContext) {
+        this.animalRepository = animalRepository;
+        this.springContext = springContext;
+    }
 
     @FXML
     public void initialize() {
@@ -40,66 +45,41 @@ public class MedicalRecordController {
         for (Animal animal : animals) {
             animalSelector.getItems().add(animal.getName());
         }
-
-        animalSelector.setOnAction(e -> {
-            String selectedName = animalSelector.getValue();
-            Animal animal = animalRepository.findAll()
-                    .stream()
-                    .filter(a -> a.getName().equals(selectedName))
-                    .findFirst()
-                    .orElse(null);
-
-            if (animal != null) {
-                nameLabel.setText(animal.getName());
-                speciesLabel.setText(animal.getSpecies().toString());
-                ageLabel.setText(String.valueOf(animal.getAge()));
-                breedLabel.setText(animal.getBreed());
-                healthStatusLabel.setText("Unknown");
-
-                vaccinationList.getItems().setAll(
-                        animal.getMedicalRecord().getMedicalEntries()
-                                .stream()
-                                .filter(m -> m.getDescription().toLowerCase().contains("vaccine"))
-                                .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
-                                .toList()
-                );
-
-                treatmentList.getItems().setAll(
-                        animal.getMedicalRecord().getMedicalEntries()
-                                .stream()
-                                .filter(m -> !m.getDescription().toLowerCase().contains("vaccine"))
-                                .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
-                                .toList()
-                );
-
-            }
-        });
     }
 
+    @FXML
+    private void onAnimalSelected(ActionEvent event) {
+        String selectedName = animalSelector.getValue();
+        Animal animal = animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getName().equals(selectedName))
+                .findFirst()
+                .orElse(null);
 
-
-    private void loadAnimalData(String animalName) {
-        animalRepository.findByAnimalName(animalName).ifPresent(animal -> {
+        if (animal != null) {
             nameLabel.setText(animal.getName());
             speciesLabel.setText(animal.getSpecies().toString());
             ageLabel.setText(String.valueOf(animal.getAge()));
             breedLabel.setText(animal.getBreed());
-            healthStatusLabel.setText(animal.isAdopted() ? "Adopted" : "Available");
+            healthStatusLabel.setText("Unknown");
 
-            vaccinationList.getItems().clear();
-            treatmentList.getItems().clear();
+            vaccinationList.getItems().setAll(
+                    animal.getMedicalEntries()
+                            .stream()
+                            .filter(m -> m.getDescription().toLowerCase().contains("vaccine"))
+                            .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
+                            .toList()
+            );
 
-            for (MedicalEntry entry : animal.getMedicalRecord().getMedicalEntries()) {
-                String display = entry.getDate() + " - " + entry.getDescription() + " (by " + entry.getVeteranName() + ")";
-                if (entry.getDescription().toLowerCase().contains("vaccine")) {
-                    vaccinationList.getItems().add(display);
-                } else {
-                    treatmentList.getItems().add(display);
-                }
-            }
-        });
+            treatmentList.getItems().setAll(
+                    animal.getMedicalEntries()
+                            .stream()
+                            .filter(m -> !m.getDescription().toLowerCase().contains("vaccine"))
+                            .map(m -> m.getDate() + " - " + m.getDescription() + " (by " + m.getVeteranName() + ")")
+                            .toList()
+            );
+        }
     }
-
 
     @FXML
     private void handleAddVaccination() {
@@ -107,25 +87,36 @@ public class MedicalRecordController {
     }
 
     @FXML
-    private void handleAddTreatment() {
-        System.out.println("Add treatment clicked");
+    private void handleAddTreatment(ActionEvent event) {
+        System.out.println("Add treatment clicked!");
     }
 
     @FXML
     private void goToHomePage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AnimalView.fxml"));
+        loadAndShowScene("/fxml/AnimalView.fxml", event);
+    }
+
+    @FXML
+    private void goToAdoptions(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AdoptionsView.fxml", event);
+    }
+
+    @FXML
+    private void goToVolunteers(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/VolunteerView.fxml", event);
+    }
+
+    @FXML
+    private void goToMedical(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/MedicalRecordView.fxml", event);
+    }
+
+    private void loadAndShowScene(String fxmlPath, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        loader.setControllerFactory(springContext::getBean);
+        Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-    }
-
-    @FXML
-    private void goToAdoptions() {
-        System.out.println("Go to Adoptions");
-    }
-
-    @FXML
-    private void handleLogout() {
-        System.out.println("Logged out");
     }
 }

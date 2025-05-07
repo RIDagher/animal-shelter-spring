@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class MainGuiTest extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MedicalRecordView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AnimalView.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Animal Shelter GUI Preview");

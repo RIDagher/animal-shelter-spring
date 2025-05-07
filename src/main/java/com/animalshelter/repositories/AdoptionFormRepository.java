@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface AdoptionFormRepository extends JpaRepository<AdoptionForm, Long> {
 
+    // Returns a list of adoption forms based on their status
     List<AdoptionForm> findByStatus(AdoptionStatus status);
 }
