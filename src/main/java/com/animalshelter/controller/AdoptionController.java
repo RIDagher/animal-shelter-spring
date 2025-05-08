@@ -142,7 +142,8 @@ public class AdoptionController {
 
     // Method to refresh the list of pending adoptions
     private void refreshPendingAdoptions() {
-        // Getting all the entries of pending adoption forms
+
+        // GETTING ONLY PENDING ADOPTION REQUESTS
         pendingAdoptionsListView.setItems(FXCollections.observableArrayList(adoptionService.getPendingAdoptions()));
 
         // Updating the content of the pending adoption forms

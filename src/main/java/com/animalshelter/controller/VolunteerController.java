@@ -120,7 +120,8 @@ public class VolunteerController {
 
 
             if (!emailField.getText().isEmpty()) {
-                // Search by email
+
+                // SEARCH BY EMAIL
                 volunteerService.getVolunteerByEmail(emailField.getText()).ifPresent(volunteer -> {
                     nameField.setText(volunteer.getName());
                     emailField.setText(volunteer.getEmail());
@@ -134,7 +135,8 @@ public class VolunteerController {
 
                 });
             } else if (!nameField.getText().isEmpty()) {
-                // Search by name
+
+                // SEARCH BY NAME
                 List<Volunteer> result = volunteerService.getVolunteerByName(nameField.getText());
                 if (result.isEmpty()) {
                     volunteerList.getItems().add("No volunteers found");

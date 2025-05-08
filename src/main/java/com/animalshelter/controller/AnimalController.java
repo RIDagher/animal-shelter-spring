@@ -121,6 +121,8 @@ public class AnimalController {
         if (type.equals("All")) {
             currentAnimalList = animalRepository.findAll();
         } else {
+            // CONVERTING STRING TO SPECIES TYPE TO FILTER ANIMALS BY TYPE
+
             Species species = Species.valueOf(type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase());
             currentAnimalList = animalRepository.findByAnimalSpecies(species);
         }

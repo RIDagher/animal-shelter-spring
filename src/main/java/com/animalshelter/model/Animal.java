@@ -47,6 +47,7 @@ public abstract class Animal implements Serializable {
     @Column(nullable = false)
     private boolean isAdopted;
 
+    // DEPRECATED WITH DATABASE INTEGRATION
     @Transient
     private MedicalRecord medicalRecord = new MedicalRecord(this);
 
@@ -80,8 +81,6 @@ public abstract class Animal implements Serializable {
         setAdopted(false);
     }
 
-    public Long getId() {return animalId;}
-
     /**
      * Method to get the animal's ID.
      * @return Long animalId
@@ -89,6 +88,7 @@ public abstract class Animal implements Serializable {
     public Long getAnimalId() {
         return animalId;
     }
+    public Long getId() {return animalId;}
 
     /**
      * Method to get the animal's medical record.
