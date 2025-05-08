@@ -3,13 +3,21 @@ package com.animalshelter.controller;
 import com.animalshelter.model.Volunteer;
 import com.animalshelter.repositories.VolunteerRepository;
 import com.animalshelter.service.VolunteerService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -20,6 +28,13 @@ public class VolunteerController {
 
     @Autowired
     private VolunteerService volunteerService;
+
+    private final ApplicationContext springContext;
+
+    @Autowired
+    public VolunteerController(ApplicationContext springContext) {
+        this.springContext = springContext;
+    }
 
     @FXML
     private TextField nameField;
@@ -154,6 +169,43 @@ public class VolunteerController {
             // Load Volunteer List
             loadVolunteers();
         });
+    }
+
+    @FXML
+    private void goToHomePage(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AnimalView.fxml", event);
+    }
+
+    @FXML
+    private void goToAdoptions(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AdoptionsView.fxml", event);
+    }
+
+    @FXML
+    private void goToVolunteers(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/VolunteerView.fxml", event);
+    }
+
+    @FXML
+    private void goToMedical(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/MedicalRecordView.fxml", event);
+    }
+
+    @FXML
+    private void goToMedicalForm(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/MedicalFormView.fxml", event);
+    }
+
+    private void loadAndShowScene(String fxmlPath, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        loader.setControllerFactory(springContext::getBean);
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setMaximized(true);
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+        stage.show();
     }
 }
 

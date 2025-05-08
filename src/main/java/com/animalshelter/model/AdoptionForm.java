@@ -2,6 +2,13 @@ package com.animalshelter.model;
 
 import jakarta.persistence.*;
 
+/**
+ * AdoptionForm class.
+ * Object attributes is all the basic but necessary data to create an entry for an adoption form in the database.
+ * Default and Default and Parameterized constructors for object instantiation.
+ * Adoption status is pending by default and can later be modified with either setters or with the adopt() and reject() methods.
+ * Getters and setters for all object attributes.
+ */
 @Entity
 @Table(name = "adoption_forms")
 public class AdoptionForm {

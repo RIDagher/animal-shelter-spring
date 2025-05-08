@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Volunteer class to create Volunteer's who help the Animal Shelter.
+ * Object attributes to describe the Volunteer.
+ * Default and Parameterized constructors for object instantiation.
+ * Getters and setter for all object attributes.
+ */
 @Entity
 @Table(name = "volunteers")
 public class Volunteer {
@@ -26,8 +32,17 @@ public class Volunteer {
     @Transient
     private List<String> schedule = new ArrayList<>();
 
+    /**
+     * Default Volunteer Constructor without parameters.
+     */
     public Volunteer() {}
 
+    /**
+     * Volunteer Constructor with parameters.
+     * @param name
+     * @param email
+     * @param phone
+     */
     public Volunteer(String name, String email, String phone) {
         this.name = name;
         this.email = email;
@@ -35,7 +50,7 @@ public class Volunteer {
     }
 
     /**
-     * Assign a new task to a volunteer
+     * Method to assign a new task to a volunteer.
      * @param task Task description
      */
     public void assignTask(String task) {
@@ -44,45 +59,80 @@ public class Volunteer {
     }
 
     /**
-     * Add a new schedule entry
+     * Method to add a new schedule entry.
      * @param scheduleEntry Day or shift the volunteer is available
      */
     public void assignSchedule(String scheduleEntry) {
         schedule.add(scheduleEntry);
     }
 
-
-    // getters
+    /**
+     * Method to get a Volunteer's name.
+     * @return String name
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * Method to set a Volunteer's name.
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method to get a Volunteer's name.
+     * @return String name
+     */
     public String getEmail() {
         return email;
     }
+
+    /**
+     * Method to set a Volunteer's email.
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Method to get a Volunteer's name.
+     * @return String name
+     */
     public String getPhone() {
         return phone;
     }
+
+    /**
+     * Method to set a Volunteer's phone.
+     * @param phone
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * Method to get a Volunteer's name.
+     * @return String name
+     */
     public List<String> getTasks() {
         return tasks;
     }
 
-
+    /**
+     * Method to get a Volunteer's name.
+     * @return String name
+     */
     public List<String> getAvailableSchedules() {
         return schedule;
     }
 
+    /**
+     * Method to display all information on a Volunteer.
+     */
     public void displayInfo() {
         System.out.println("Volunteer: " + name);
         System.out.println("Email: " + email + "| Phone: " + phone);

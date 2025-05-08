@@ -3,6 +3,14 @@ package com.animalshelter.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.DiscriminatorValue;
 
+/**
+ * Bird subclass.
+ * Added object attributes are a boolean for whether the bird can fly and a String for the type of beak the bird has.
+ * Default and Parameterized constructors for object instantiation.
+ * Getters and setter for all object attributes.
+ * Implements the two methods adopt() and returnToShelter() from the Adoptable interface.
+ * Defines the abstract method displayInfo() from the abstract superclass Animal.
+ */
 @Entity
 @DiscriminatorValue("BIRD")
 public class Bird extends Animal implements Adoptable {
@@ -31,14 +39,26 @@ public class Bird extends Animal implements Adoptable {
         setBeakType(aBeakType);
     }
 
-
+    /**
+     * Method to know whether the Bird can fly.
+     * @return boolean canFly
+     */
     public boolean isCanFly() {
         return canFly;
     }
+
+    /**
+     * Method to set whether the Bird can fly.
+     * @param canFly
+     */
     public void setCanFly(boolean canFly) {
         this.canFly = canFly;
     }
 
+    /**
+     * Method to get the Bird's beak type.
+     * @return String beakType
+     */
     public String getBeakType() {return beakType;}
     public void setBeakType(String aBeakType) {
         if (!aBeakType.isEmpty()) {
@@ -48,6 +68,9 @@ public class Bird extends Animal implements Adoptable {
         }
     }
 
+    /**
+     * Implementing the method to adopt an animal, from the Adoptable interface.
+     */
     @Override
     public void adopt() {
         if (!isAdopted()) {
@@ -58,8 +81,18 @@ public class Bird extends Animal implements Adoptable {
         }
     }
 
+    /**
+     * Implementing the method to return an animal to the shelter, from the Adoptable interface.
+     */
     @Override
-    public void returnToShelter() {}
+    public void returnToShelter() {
+        if (isAdopted()) {
+            setAdopted(false);
+            System.out.println(getName() + " (ID: " + getAnimalId() + ")  has been returned");
+        } else {
+            System.out.println(getName() + " (ID: " + getAnimalId() + ") is already returned");
+        }
+    }
 
     /**
      * Abstract method to display information on the Animal.
@@ -77,4 +110,4 @@ public class Bird extends Animal implements Adoptable {
                 "]");
     }
 
-    }
+}

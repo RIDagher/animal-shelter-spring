@@ -5,6 +5,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Animal abstract superclass.
+ * Object attributes that are universally shared and relevant to animals.
+ * Default and Parameterized constructors for object instantiation.
+ * Getters and setter for all object attributes.
+ * Abstract method to display information on the Animal.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "animal_type", discriminatorType = DiscriminatorType.STRING)

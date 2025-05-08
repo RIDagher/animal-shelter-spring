@@ -1,7 +1,6 @@
-Animal Shelter Project – Assignment 2
+Animal Shelter Project – Assignment 3
 
-
-This is an enhanced version of the Animal Shelter system for Assignment 2.
+This is an enhanced version of the Animal Shelter system for Assignment 3.
 
 Key Features:
 - Abstract class: Animal (with Dog, Cat, Bird subclasses)
@@ -16,5 +15,5 @@ Composition/Aggregation:
 
 Instructions:
 1. Compile all files in `src/`
-2. Run `AnimalShelterManagement` to test features
+2. Run `AnimalShelterApplication` to test features
 3. Example scenarios include: adopting animals, adding treatments, assigning volunteer tasks

@@ -100,12 +100,20 @@ public class AnimalController {
         loadAndShowScene("/fxml/MedicalRecordView.fxml", event);
     }
 
+    @FXML
+    private void goToMedicalForm(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/MedicalFormView.fxml", event);
+    }
+
     private void loadAndShowScene(String fxmlPath, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         loader.setControllerFactory(springContext::getBean);
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.setMaximized(true);
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
         stage.show();
     }
 
