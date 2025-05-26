@@ -1,6 +1,6 @@
 package com.animalshelter.repositories;
 
-import com.animalshelter.model.Volunteer;
+import com.animalshelter.domain.volunteers.Volunteer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

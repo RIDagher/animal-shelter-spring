@@ -1,5 +1,10 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.animals;
 
+import com.animalshelter.domain.animals.enums.Sex;
+import com.animalshelter.domain.animals.enums.Size;
+import com.animalshelter.domain.animals.enums.Species;
+import com.animalshelter.domain.medical.MedicalEntry;
+import com.animalshelter.domain.medical.MedicalRecord;
 import jakarta.persistence.*;
 import java.io.Serializable;
 
@@ -56,6 +61,34 @@ public abstract class Animal implements Serializable {
         setAdopted(false);
     }
 
+<<<<<<< Updated upstream:src/main/java/com/animalshelter/model/Animal.java
+=======
+    /**
+     * Method to get the animal's ID.
+     * @return Long animalId
+     */
+    public Long getAnimalId() {
+        return animalId;
+    }
+    public Long getId() {return animalId;}
+
+    /**
+     * Method to set the animal's ID.
+     * @param id
+     */
+    public void setAnimalId(long id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Animal ID must be positive");
+        } else {
+            this.animalId = id;
+        }
+    }
+
+    /**
+     * Method to get the animal's medical record.
+     * @return MedicalRecord medicalRecord
+     */
+>>>>>>> Stashed changes:src/main/java/com/animalshelter/domain/animals/Animal.java
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }

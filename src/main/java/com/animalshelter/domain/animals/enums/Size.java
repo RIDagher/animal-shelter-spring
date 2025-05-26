@@ -1,4 +1,4 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.animals.enums;
 
 public enum Size {
     Small,

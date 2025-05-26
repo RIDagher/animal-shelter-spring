@@ -1,5 +1,7 @@
 package com.animalshelter.model;
 
+import com.animalshelter.domain.animals.Animal;
+
 import java.util.ArrayList;
 import java.util.List;
 

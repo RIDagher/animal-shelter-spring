@@ -1,4 +1,6 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.medical;
+
+import com.animalshelter.domain.animals.Animal;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

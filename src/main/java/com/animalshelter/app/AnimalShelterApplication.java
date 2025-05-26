@@ -1,16 +1,17 @@
-package com.animalshelter;
+package com.animalshelter.app;
 
-import com.animalshelter.model.*;
 import com.animalshelter.repositories.AnimalRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+<<<<<<< Updated upstream:src/main/java/com/animalshelter/AnimalShelterApplication.java
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
+=======
+>>>>>>> Stashed changes:src/main/java/com/animalshelter/app/AnimalShelterApplication.java
 @SpringBootApplication
 public class AnimalShelterApplication {
 

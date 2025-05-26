@@ -1,5 +1,8 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.animals;
 
+import com.animalshelter.domain.animals.enums.Sex;
+import com.animalshelter.domain.animals.enums.Size;
+import com.animalshelter.domain.animals.enums.Species;
 import jakarta.persistence.Entity;
 import jakarta.persistence.DiscriminatorValue;
 

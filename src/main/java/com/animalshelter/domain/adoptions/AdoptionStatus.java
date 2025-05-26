@@ -1,4 +1,4 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.adoptions;
 
 public enum AdoptionStatus {
     PENDING,

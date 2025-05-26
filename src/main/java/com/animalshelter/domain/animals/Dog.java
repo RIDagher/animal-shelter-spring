@@ -1,5 +1,8 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.animals;
 
+import com.animalshelter.domain.animals.enums.Sex;
+import com.animalshelter.domain.animals.enums.Size;
+import com.animalshelter.domain.animals.enums.Species;
 import jakarta.persistence.Entity;
 import jakarta.persistence.DiscriminatorValue;
 
@@ -17,7 +20,7 @@ public class Dog extends Animal implements Adoptable {
     public Dog(String aName, int aAge, Sex aSex, String aBreed, Size aSize, String aColor, boolean isTrained, String barkVolume) {
         super(aName, Species.Dog, aAge, aSex, aBreed, aSize, aColor);
         setTrained(isTrained);
-
+        setBarkVolume(barkVolume);
     }
 
     public boolean isTrained() {

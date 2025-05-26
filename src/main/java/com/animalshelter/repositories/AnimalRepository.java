@@ -1,9 +1,8 @@
 package com.animalshelter.repositories;
 
-import com.animalshelter.model.Animal;
-import com.animalshelter.model.Species;
+import com.animalshelter.domain.animals.Animal;
+import com.animalshelter.domain.animals.enums.Species;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

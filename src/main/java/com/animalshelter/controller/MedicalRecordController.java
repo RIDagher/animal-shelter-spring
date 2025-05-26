@@ -1,7 +1,6 @@
 package com.animalshelter.controller;
 
-import com.animalshelter.model.Animal;
-import com.animalshelter.model.MedicalEntry;
+import com.animalshelter.domain.animals.Animal;
 import com.animalshelter.repositories.AnimalRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

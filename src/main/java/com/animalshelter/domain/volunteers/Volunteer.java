@@ -1,4 +1,4 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.volunteers;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;

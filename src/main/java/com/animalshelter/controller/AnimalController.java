@@ -1,7 +1,7 @@
 package com.animalshelter.controller;
 
-import com.animalshelter.model.Animal;
-import com.animalshelter.model.Species;
+import com.animalshelter.domain.animals.Animal;
+import com.animalshelter.domain.animals.enums.Species;
 import com.animalshelter.repositories.AnimalRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,5 +1,6 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.adoptions;
 
+import com.animalshelter.domain.animals.Animal;
 import jakarta.persistence.*;
 
 @Entity

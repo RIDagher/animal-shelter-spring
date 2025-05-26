@@ -1,7 +1,12 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.medical;
 
+<<<<<<< Updated upstream:src/main/java/com/animalshelter/model/MedicalEntry.java
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+=======
+import com.animalshelter.domain.animals.Animal;
+import jakarta.persistence.*;
+>>>>>>> Stashed changes:src/main/java/com/animalshelter/domain/medical/MedicalEntry.java
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
