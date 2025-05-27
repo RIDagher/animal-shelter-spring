@@ -1,4 +1,4 @@
-package com.animalshelter.model;
+package com.animalshelter.domain.shelter;
 
 import com.animalshelter.domain.animals.Animal;
 
