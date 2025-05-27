@@ -20,11 +20,12 @@ public class Volunteer {
     @Column(nullable = false)
     private String phone;
 
-    @Transient
-    private List<String> tasks = new ArrayList<>();
 
     @Transient
     private List<String> schedule = new ArrayList<>();
+
+    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 
     public Volunteer() {}
 
@@ -38,7 +39,7 @@ public class Volunteer {
      * Assign a new task to a volunteer
      * @param task Task description
      */
-    public void assignTask(String task) {
+    public void assignTask(Task task) {
         tasks.add(task);
         System.out.println("Task assigned to " + name + ": " + task );
     }
@@ -74,7 +75,7 @@ public class Volunteer {
         this.phone = phone;
     }
 
-    public List<String> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
@@ -83,17 +84,8 @@ public class Volunteer {
         return schedule;
     }
 
-    public void displayInfo() {
-        System.out.println("Volunteer: " + name);
-        System.out.println("Email: " + email + "| Phone: " + phone);
-        System.out.println("Available days: " + String.join(", ", schedule));
-        if (tasks.isEmpty()) {
-            System.out.println("No assigned tasks");
-        } else {
-            System.out.println("Tasks: ");
-            for (String task : tasks) {
-                System.out.println(" - " + task);
-            }
-        }
+    @Override
+    public String toString() {
+    return name + " | " + email + " | " + phone;
     }
 }
