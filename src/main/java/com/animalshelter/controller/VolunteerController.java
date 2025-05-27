@@ -20,6 +20,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for the Volunteer Management screen.
+ * Handles adding, searching, resetting, selecting, and navigating volunteers.
+ */
 @Component
 public class VolunteerController {
 
@@ -36,142 +40,136 @@ public class VolunteerController {
         this.springContext = springContext;
     }
 
-    @FXML
-    private TextField nameField;
+    @FXML private TextField nameField;
+    @FXML private TextField emailField;
+    @FXML private TextField phoneField;
 
-    @FXML
-    private TextField emailField;
+    @FXML private Button addVolunteerButton;
+    @FXML private Button searchVolunteerButton;
+    @FXML private Button resetButton;
 
-    @FXML
-    private TextField phoneField;
+    @FXML private ListView<Volunteer> volunteerList;
 
-    @FXML
-    private Button addVolunteerButton;
-
-    @FXML
-    private Button searchVolunteerButton;
-
-    @FXML
-    private Button resetButton;
-
-    @FXML
-    private ListView<String> volunteerList;
-
+    /**
+     * Initializes the Volunteer view with default behavior.
+     */
     @FXML
     public void initialize() {
         loadVolunteers();
         setUpSearchHandler();
+        setupSelectionListener();
         resetForm();
 
-
         addVolunteerButton.setOnAction(e -> {
-            String volunteerName = nameField.getText();
-            String volunteerEmail = emailField.getText();
-            String volunteerPhone = phoneField.getText();
+            String name = nameField.getText();
+            String email = emailField.getText();
+            String phone = phoneField.getText();
 
-            if (!volunteerName.isEmpty() && !volunteerEmail.isEmpty() && !volunteerPhone.isEmpty()) {
-                Volunteer newVolunteer = new Volunteer(volunteerName, volunteerEmail, volunteerPhone);
+            if (!name.isEmpty() && !email.isEmpty() && !phone.isEmpty()) {
+                Volunteer newVolunteer = new Volunteer(name, email, phone);
                 try {
                     volunteerService.addVolunteer(newVolunteer);
                     loadVolunteers();
-                    nameField.clear();
-                    emailField.clear();
-                    phoneField.clear();
-
-                    // Return Error to user if email already exists in database
-                } catch (RuntimeException exception) {
+                    clearForm();
+                } catch (RuntimeException ex) {
                     volunteerList.getItems().clear();
-                    volunteerList.getItems().add("Error: " + exception.getMessage());
+                    volunteerList.getItems().add(new Volunteer("Error: " + ex.getMessage(), "", ""));
                 }
             }
         });
     }
 
-    // loadVolunteers method to display all volunteers
+    /**
+     * Loads all volunteers from the database and displays them in the ListView.
+     */
     private void loadVolunteers() {
         volunteerList.getItems().clear();
-
         try {
             List<Volunteer> volunteers = volunteerService.getAllVolunteers();
-
-            if (volunteers.isEmpty()) {
-                volunteerList.getItems().add("No volunteers found");
-            } else {
-                for (Volunteer volunteer : volunteers) {
-                    String display = String.format(
-                            "👤 %-20s\n📧 %-25s\n📞 %s",
-                            volunteer.getName(),
-                            volunteer.getEmail(),
-                            volunteer.getPhone()
-                    );
-                    volunteerList.getItems().add(display);
-                }
-            }
+            volunteerList.getItems().addAll(volunteers);
         } catch (Exception e) {
-            volunteerList.getItems().add("Failed to load volunteers: " + e.getMessage());
+            System.out.println("Error loading volunteers: " + e.getMessage());
         }
     }
 
-
-    // setUpSearchHandler method the search a volunteer by name and by email
+    /**
+     * Sets up search functionality by email or name using a single button.
+     */
     private void setUpSearchHandler() {
         searchVolunteerButton.setOnAction(e -> {
             volunteerList.getItems().clear();
 
+            String email = emailField.getText().trim();
+            String name = nameField.getText().trim();
 
-            if (!emailField.getText().isEmpty()) {
-
-                // SEARCH BY EMAIL
-                volunteerService.getVolunteerByEmail(emailField.getText()).ifPresent(volunteer -> {
-                    nameField.setText(volunteer.getName());
-                    emailField.setText(volunteer.getEmail());
-                    phoneField.setText(volunteer.getPhone());
-                    String display = String.format(         "👤 %-20s\n📧 %-25s\n📞 %s",
-                            volunteer.getName(),
-                            volunteer.getEmail(),
-                            volunteer.getPhone()
-                    );
-                    volunteerList.getItems().add(display);
-
-                });
-            } else if (!nameField.getText().isEmpty()) {
-
-                // SEARCH BY NAME
-                List<Volunteer> result = volunteerService.getVolunteerByName(nameField.getText());
-                if (result.isEmpty()) {
-                    volunteerList.getItems().add("No volunteers found");
-                } else {
-                    for (Volunteer volunteer : result) {
-                        String display = String.format(         "👤 %-20s\n📧 %-25s\n📞 %s",
-                                volunteer.getName(),
-                                volunteer.getEmail(),
-                                volunteer.getPhone()
+            // Search by email
+            if (!email.isEmpty()) {
+                volunteerService.getVolunteerByEmail(email)
+                        .map(volunteer -> {
+                            populateFormFields(volunteer);
+                            return List.of(volunteer);
+                        })
+                        .ifPresentOrElse(
+                                volunteerList.getItems()::addAll,
+                                () -> volunteerList.getItems().add(new Volunteer("No volunteer found", "", ""))
                         );
-                        volunteerList.getItems().add(display);
-                    }
-                }
-            } else {
-                volunteerList.getItems().add("Enter a Name or Email to search for volunteers");
+                return;
+            }
+
+            // Search by name
+            if (!name.isEmpty()) {
+                List<Volunteer> results = volunteerService.getVolunteerByName(name);
+                (results.isEmpty() ? List.of(new Volunteer("No volunteers found", "", "")) : results)
+                        .forEach(volunteerList.getItems()::add);
+                return;
+            }
+
+            // No input
+            volunteerList.getItems().add(new Volunteer("Enter a Name or Email to search", "", ""));
+        });
+    }
+
+    /**
+     * Sets up a listener that populates the form fields
+     * when a volunteer is selected from the ListView.
+     */
+    private void setupSelectionListener() {
+        volunteerList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                populateFormFields(newVal);
             }
         });
     }
 
-    // resetForm method to reset the volunteer form
+    /**
+     * Fills the form fields with the selected volunteer's data.
+     */
+    private void populateFormFields(Volunteer volunteer) {
+        nameField.setText(volunteer.getName());
+        emailField.setText(volunteer.getEmail());
+        phoneField.setText(volunteer.getPhone());
+    }
+
+    /**
+     * Clears form fields for a clean input.
+     */
+    private void clearForm() {
+        nameField.clear();
+        emailField.clear();
+        phoneField.clear();
+    }
+
+    /**
+     * Resets the form and refreshes the full list of volunteers.
+     */
     private void resetForm() {
-
         resetButton.setOnAction(e -> {
-            // Clear List
-            volunteerList.getItems().clear();
-
-            // Clear Fields
-            nameField.clear();
-            emailField.clear();
-            phoneField.clear();
-
-            // Load Volunteer List
+            clearForm();
             loadVolunteers();
         });
     }
+
+    // -------- Navigation between views -------- //
 
     @FXML
     private void goToHomePage(ActionEvent event) throws IOException {
@@ -198,10 +196,14 @@ public class VolunteerController {
         loadAndShowScene("/fxml/MedicalFormView.fxml", event);
     }
 
+    /**
+     * Helper method to load FXML views while using Spring context for injection.
+     */
     private void loadAndShowScene(String fxmlPath, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         loader.setControllerFactory(springContext::getBean);
         Parent root = loader.load();
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setMaximized(true);
@@ -210,4 +212,3 @@ public class VolunteerController {
         stage.show();
     }
 }
-
