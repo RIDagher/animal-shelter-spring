@@ -54,7 +54,11 @@
             </HBox>
 
             <Separator />
-            <VBox>
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
                 <Label text="Assign Task"/>
 
                 <HBox spacing="10">
@@ -62,14 +66,25 @@
                     <CheckBox fx:id="cleanCageCheckBox" text="Clean Cage" />
                     <CheckBox fx:id="feedAnimalCheckBox" text="Feed Animal" />
                     <CheckBox fx:id="walkDogCheckBox" text="Walk Dog" />
-                    <Button fx:id="assignTasksButton" text="Assign Tasks" />
+
                 </HBox>
+                <Button fx:id="assignTasksButton" text="Assign Tasks" />
             </VBox>
 
 
             <Separator/>
-            <Label text="Volunteer List:"/>
-            <ListView fx:id="volunteerList" prefWidth="600" prefHeight="400"/>
+            <!-- Volunteer + Task Lists -->
+            <HBox spacing="20">
+                <VBox>
+                    <Label text="Volunteer List:"/>
+                    <ListView fx:id="volunteerList" prefHeight="400" prefWidth="600"/>
+                </VBox>
+                <VBox>
+                    <Label text="Task List:"/>
+                    <ListView fx:id="taskList" prefHeight="400" prefWidth="600"/>
+                </VBox>
+            </HBox>
+
         </VBox>
     </center>
 

@@ -23,7 +23,7 @@ public class Volunteer {
     @Transient
     private List<String> schedule = new ArrayList<>();
 
-    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Task> tasks = new ArrayList<>();
 
     public Volunteer() {}
@@ -33,7 +33,7 @@ public class Volunteer {
         setEmail(email);
         setPhone(phone);
     }
-
+  
     /**
      * Assign a new task to a volunteer
      * @param task Task description
@@ -57,6 +57,9 @@ public class Volunteer {
 
 
     // getters
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
     public String getName() {
         return name;
     }
@@ -100,6 +103,6 @@ public class Volunteer {
 
     @Override
     public String toString() {
-        return name + " | " + email + " | " + phone;
+        return name + " | " + email + " | " + phone + " | " + "Tasks: " + tasks.size();
     }
 }
