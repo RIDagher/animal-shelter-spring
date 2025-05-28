@@ -23,7 +23,12 @@ public class Task {
     }
 
     public void setVolunteer(Volunteer volunteer) {
-        this.volunteer = volunteer;
+        if (volunteer != null) {
+            this.volunteer = volunteer;
+            volunteer.assignTask(Task.this);
+        } else {
+            throw new IllegalArgumentException("Volunteer cannot be null");
+        }
     }
 
     public Volunteer getVolunteer() {
@@ -35,7 +40,11 @@ public class Task {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null && description.trim().length() > 3) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Description cannot be null or empty");
+        }
     }
 
     public boolean isCompleted() {
@@ -50,7 +59,11 @@ public class Task {
         return id;
     }
     public void setId(Long id) {
-        this.id = id;
+        if (id != null) {
+            this.id = id;
+        } else {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
     }
 
     @Override
