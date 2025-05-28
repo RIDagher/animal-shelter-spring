@@ -47,6 +47,9 @@ public class Volunteer {
 
 
     // getters
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
     public String getName() {
         return name;
     }

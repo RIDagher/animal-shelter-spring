@@ -60,6 +60,8 @@ public class VolunteerController {
 
     @FXML private ListView<Volunteer> volunteerList;
 
+    @FXML private ListView<Task> taskList;
+
     /**
      * Initializes the Volunteer view with default behavior.
      */
@@ -101,7 +103,7 @@ public class VolunteerController {
         volunteerList.getItems().clear();
 
         try {
-            // 1. Set how each volunteer is displayed
+            // Define how each volunteer is displayed in the list
             volunteerList.setCellFactory(lv -> new ListCell<>() {
                 @Override
                 protected void updateItem(Volunteer volunteer, boolean empty) {
@@ -109,29 +111,22 @@ public class VolunteerController {
                     if (empty || volunteer == null) {
                         setText(null);
                     } else {
-                        String taskSummary = volunteer.getTasks().isEmpty() ? "No tasks"
-                                : volunteer.getTasks().stream()
-                                .map(Task::getDescription)
-                                .reduce((a, b) -> a + ", " + b)
-                                .orElse("");
-
                         setText(String.format(
-                                "%s | %s | %s\nTasks: %s",
+                                "%s | %s | %s",
                                 volunteer.getName(),
                                 volunteer.getEmail(),
-                                volunteer.getPhone(),
-                                taskSummary
+                                volunteer.getPhone()
                         ));
                     }
                 }
             });
 
-            // 2. Actually fetch and display the volunteers
+            // Fetch and display the volunteers
             List<Volunteer> volunteers = volunteerService.getAllVolunteers();
             volunteerList.getItems().addAll(volunteers);
 
         } catch (Exception e) {
-            showAlert("Error", "No volunteer" + e.getMessage());
+            showAlert("Error", "Failed to load volunteers: " + e.getMessage());
             resetForm();
         }
     }
@@ -175,6 +170,48 @@ public class VolunteerController {
     }
 
     /**
+     *
+     */
+    private void loadTasksForVolunteer(Volunteer volunteer) {
+        taskList.getItems().clear();
+        List<Task> tasks = taskService.getTasksForVolunteer(volunteer.getVolunteerId());
+        taskList.getItems().addAll(tasks);
+
+        taskList.setCellFactory(lv -> new ListCell<>() {
+            private final Button completeBtn = new Button("Mark Completed");
+
+            {
+                completeBtn.setOnAction(e -> {
+                    Task task = getItem();
+                    taskService.deleteTask(task);
+                    taskList.getItems().remove(task);
+
+
+
+                });
+
+            }
+
+            @Override
+            protected void updateItem(Task task, boolean empty) {
+                super.updateItem(task, empty);
+                if (empty || task == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(task.getDescription() + " - Pending");
+                    setGraphic(completeBtn);
+                }
+
+            }
+
+        });
+    }
+
+
+
+
+    /**
      * Sets up a listener that populates the form fields
      * when a volunteer is selected from the ListView.
      */
@@ -182,6 +219,7 @@ public class VolunteerController {
         volunteerList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 populateFormFields(newVal);
+                loadTasksForVolunteer(newVal);
             }
         });
     }

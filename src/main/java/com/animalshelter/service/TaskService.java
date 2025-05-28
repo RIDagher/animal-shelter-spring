@@ -6,7 +6,7 @@ import com.animalshelter.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.animalshelter.repositories.VolunteerRepository;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,13 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    @Transactional
     public void deleteTask(Task task) {
-        taskRepository.deleteById(task.getId());
+        Volunteer volunteer = task.getVolunteer();
+        if (volunteer != null) {
+            volunteer.getTasks().remove(task);
+        }
+        taskRepository.delete(task);
     }
 
     public void assignTaskToVolunteer(Volunteer volunteer, List<String> taskDescriptions) {

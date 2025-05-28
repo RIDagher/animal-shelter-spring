@@ -73,8 +73,18 @@
 
 
             <Separator/>
-            <Label text="Volunteer List:"/>
-            <ListView fx:id="volunteerList" prefWidth="600" prefHeight="400"/>
+            <!-- Volunteer + Task Lists -->
+            <HBox spacing="20">
+                <VBox>
+                    <Label text="Volunteer List:"/>
+                    <ListView fx:id="volunteerList" prefHeight="400" prefWidth="600"/>
+                </VBox>
+                <VBox>
+                    <Label text="Task List:"/>
+                    <ListView fx:id="taskList" prefHeight="400" prefWidth="600"/>
+                </VBox>
+            </HBox>
+
         </VBox>
     </center>
 
