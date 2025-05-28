@@ -20,7 +20,6 @@ public class Volunteer {
     @Column(nullable = false)
     private String phone;
 
-
     @Transient
     private List<String> schedule = new ArrayList<>();
 
@@ -30,9 +29,9 @@ public class Volunteer {
     public Volunteer() {}
 
     public Volunteer(String name, String email, String phone) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+        setName(name);
+        setEmail(email);
+        setPhone(phone);
     }
 
     /**
@@ -40,8 +39,12 @@ public class Volunteer {
      * @param task Task description
      */
     public void assignTask(Task task) {
-        tasks.add(task);
-        System.out.println("Task assigned to " + name + ": " + task );
+        if (task != null) {
+            tasks.add(task);
+            System.out.println("Task assigned to " + name + ": " + task );
+        } else {
+            throw new IllegalArgumentException("Task cannot be null");
+        }
     }
 
     /**
@@ -58,21 +61,33 @@ public class Volunteer {
         return name;
     }
     public void setName(String name) {
-        this.name = name;
+        if (name != null && name.length() > 3) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
     }
 
     public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null && email.length() > 3 && email.contains("@")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
     }
 
     public String getPhone() {
         return phone;
     }
     public void setPhone(String phone) {
-        this.phone = phone;
+        if (phone != null && phone.length() > 3) {
+            this.phone = phone;
+        } else {
+            throw new IllegalArgumentException("Phone cannot be empty");
+        }
     }
 
     public List<Task> getTasks() {

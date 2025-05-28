@@ -121,11 +121,11 @@ public abstract class Animal implements Serializable {
 
     /**
      * Method to set the animal's nickname.
-     * @param animalName
+     * @param aName
      */
-    public void setName(String animalName) {
-        if(!animalName.isEmpty()){
-            this.animalName = animalName;
+    public void setName(String aName) {
+        if(aName != null && aName.length() > 3) {
+            this.animalName = aName;
         } else {
             throw new IllegalArgumentException("Animal Name cannot be empty");
         }
@@ -201,11 +201,11 @@ public abstract class Animal implements Serializable {
 
     /**
      * Method to set the animal's breed.
-     * @param animalBreed
+     * @param aBreed
      */
-    public void setBreed(String animalBreed) {
-        if(!animalBreed.isEmpty()){
-            this.animalBreed = animalBreed;
+    public void setBreed(String aBreed) {
+        if(aBreed != null && aBreed.length() > 3){
+            this.animalBreed = aBreed;
         } else {
             throw new IllegalArgumentException("Animal Breed cannot be empty");
         }
@@ -244,7 +244,7 @@ public abstract class Animal implements Serializable {
      * @param aColor
      */
     public void setColor(String aColor) {
-        if(!aColor.isEmpty()){
+        if(aColor != null && aColor.length() > 3){
             this.animalColor = aColor;
         } else {
             throw new IllegalArgumentException("Animal Color cannot be empty");

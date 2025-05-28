@@ -56,7 +56,7 @@ public class Dog extends Animal implements Adoptable {
      * @param barkVolume
      */
     public void setBarkVolume(String barkVolume) {
-        if (!barkVolume.isEmpty()) {
+        if (barkVolume != null && barkVolume.length() > 3) {
             this.barkVolume = barkVolume;
         } else {
             throw new IllegalArgumentException("Bark Volume cannot be empty");

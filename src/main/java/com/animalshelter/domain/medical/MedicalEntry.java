@@ -41,10 +41,10 @@ public class MedicalEntry {
      * MedicalEntry Constructor with parameters.
      */
     public MedicalEntry(String description, String vetName, LocalDate date, Animal animal) {
-        this.description = description;
-        this.vetName = vetName;
-        this.date = date;
-        this.animal = animal;
+        setDescription(description);
+        setVeteranName(vetName);
+        setDate(date);
+        setAnimal(animal);
     }
 
     /**
@@ -56,11 +56,31 @@ public class MedicalEntry {
     }
 
     /**
+     * Method to set a MedicalEntry's description
+     * @param description
+     */
+    public void setDescription(String description) {
+        if (description != null && description.length() > 3) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Description cannot be empty");
+        }
+    }
+
+    /**
      * Method to get a MedicalEntry's veterinarian name.
      * @return String vetName
      */
     public String getVeteranName() {
         return vetName;
+    }
+
+    public void setVeteranName(String vetName) {
+        if (vetName != null && vetName.length() > 3) {
+            this.vetName = vetName;
+        } else {
+            throw new IllegalArgumentException("VetName cannot be empty");
+        }
     }
 
     /**
@@ -71,12 +91,28 @@ public class MedicalEntry {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        if (date != null) {
+            this.date = date;
+        } else {
+            throw new IllegalArgumentException("Date cannot be empty");
+        }
+    }
+
     /**
      * Method to get a MedicalEntry's animal.
      * @return Animal animal
      */
     public Animal getAnimal() {
         return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        if (animal != null) {
+            this.animal = animal;
+        } else {
+            throw new IllegalArgumentException("Animal cannot be empty");
+        }
     }
 
     /**
