@@ -63,6 +63,15 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);
 }
 
+.animal-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.animal-adopted {
+    -fx-text-fill: #007b00;
+}
+
 .navbar {
     -fx-background-color: #1976d2;
     -fx-padding: 10;
@@ -125,5 +134,7 @@
     -fx-font-size: 14px;
     -fx-padding: 6;
 }
+
+
 
 
