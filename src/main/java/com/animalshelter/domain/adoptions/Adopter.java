@@ -17,7 +17,7 @@ public class Adopter {
      * @param name
      */
     public Adopter(String name) {
-        this.name = name;
+        setName(name);
         this.adoptedAnimals = new ArrayList<>();
     }
 
@@ -34,7 +34,7 @@ public class Adopter {
      * @param name
      */
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name != null && name.length() > 3) {
             this.name = name;
         } else {
             throw new IllegalArgumentException("Name cannot be null or empty");

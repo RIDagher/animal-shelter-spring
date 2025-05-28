@@ -70,7 +70,7 @@ public class Cat extends Animal implements Adoptable {
      * @param aTemperament
      */
     public void setTemperament(String aTemperament) {
-        if (!aTemperament.isEmpty()) {
+        if (aTemperament != null && aTemperament.length() > 3) {
             this.temperament = aTemperament;
         } else {
             throw new IllegalArgumentException("Cat temperament must be either; Small, Medium, or Large");

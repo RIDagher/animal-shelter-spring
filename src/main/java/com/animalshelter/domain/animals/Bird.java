@@ -63,7 +63,7 @@ public class Bird extends Animal implements Adoptable {
      */
     public String getBeakType() {return beakType;}
     public void setBeakType(String aBeakType) {
-        if (!aBeakType.isEmpty()) {
+        if (aBeakType != null && aBeakType.length() > 3) {
             this.beakType = aBeakType;
         } else {
             throw new IllegalArgumentException("Beak Type cannot be empty");
