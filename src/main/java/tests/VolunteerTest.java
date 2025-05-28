@@ -41,7 +41,7 @@ class VolunteerTest {
 
     @Test
     void setEmail_InvalidFormat_ShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () -> volunteer.setEmail("invalid-email"));
+        assertThrows(IllegalArgumentException.class, () -> volunteer.setEmail("email with no at sign"));
     }
 
     @Test

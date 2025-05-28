@@ -60,6 +60,7 @@ class AdopterTest {
     @Test
     void removeAdoptedAnimal_ExistingAnimal_ShouldRemove() {
         adopter.addAdoptedAnimal(adoptedAnimal);
+        assertEquals(adoptedAnimal, adopter.getAdoptedAnimals().get(0));
         adopter.removeAdoptedAnimal(adoptedAnimal);
         assertTrue(adopter.getAdoptedAnimals().isEmpty());
     }
