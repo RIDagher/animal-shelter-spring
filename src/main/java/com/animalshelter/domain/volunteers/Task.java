@@ -9,7 +9,7 @@ public class Task {
     private Long id;
 
     private String description;
-    private boolean completed;
+    private boolean completed = false;
 
     @ManyToOne
     @JoinColumn(name = "volunteerId")
@@ -22,12 +22,12 @@ public class Task {
         this.completed = completed;
     }
 
-    public Long getId() {
-        return id;
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Volunteer getVolunteer() {
+        return volunteer;
     }
 
     public String getDescription() {
@@ -44,6 +44,18 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return description + (completed ? " (Done)" : " (Pending)");
     }
 
 }

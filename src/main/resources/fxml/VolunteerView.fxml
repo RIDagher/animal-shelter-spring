@@ -54,7 +54,11 @@
             </HBox>
 
             <Separator />
-            <VBox>
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
                 <Label text="Assign Task"/>
 
                 <HBox spacing="10">
@@ -62,8 +66,9 @@
                     <CheckBox fx:id="cleanCageCheckBox" text="Clean Cage" />
                     <CheckBox fx:id="feedAnimalCheckBox" text="Feed Animal" />
                     <CheckBox fx:id="walkDogCheckBox" text="Walk Dog" />
-                    <Button fx:id="assignTasksButton" text="Assign Tasks" />
+
                 </HBox>
+                <Button fx:id="assignTasksButton" text="Assign Tasks" />
             </VBox>
 
 
