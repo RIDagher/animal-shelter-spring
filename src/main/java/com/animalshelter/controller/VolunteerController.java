@@ -196,6 +196,11 @@ public class VolunteerController {
         loadAndShowScene("/fxml/MedicalFormView.fxml", event);
     }
 
+    @FXML
+    private void goToAddAnimal(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AddAnimalView.fxml", event);
+    }
+
     /**
      * Helper method to load FXML views while using Spring context for injection.
      */
@@ -205,10 +210,13 @@ public class VolunteerController {
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setMaximized(true);
-        stage.setMinWidth(1024);
-        stage.setMinHeight(768);
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+
+        stage.setWidth(1024);
+        stage.setHeight(768);
+
         stage.show();
     }
 }

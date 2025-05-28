@@ -46,11 +46,13 @@ public class AnimalShelterApplication extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Animal Shelter");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.setMinWidth(1024);
         primaryStage.setMinHeight(768);
         primaryStage.show();
     }
+
+
 
     @Override
     public void stop() {
