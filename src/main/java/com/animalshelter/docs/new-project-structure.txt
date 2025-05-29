@@ -1,0 +1,21 @@
+src/main/
+|-- java/
+|   |
+|   |-- com/animalshelter/
+|   |   |
+|   |   |-- app/               #folder containing initialization file AnimalShelterApplication.java
+|   |   |-- behavioral/        #folder containing search pattern classes
+|   |   |-- creational/        #folder containing creational pattern classes, i.e. entity factories
+|   |   |-- controller/        #folder containing all our controllers needed for our views
+|   |   |-- docs/              #folder for our readme.txt file and this file
+|   |   |-- domain/            #folder with folders inside for all our entity classes
+|   |   |-- patterns/          #folder for our observer notification pattern
+|   |   |-- repositories/      #folder for all our repositories
+|   |   |-- service/	       #folder for all our service classes needed for our views
+|   |
+|   |--tests/		       #folder with all our test classes
+|
+|-- resources/
+    |-- fxml/		       #folder with all our fxml view files
+    |-- styles/		       #folder with all our css style files
+    |-- application.properties #file with our application settings

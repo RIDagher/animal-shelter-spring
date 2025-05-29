@@ -1,0 +1,14 @@
+src/main/
+|-- java/com/animalshelter/
+|   |
+|   |-- controller/                    #folder containing all our controllers needed for our views
+|   |-- docs/                          #folder for our readme.txt file and this file
+|   |-- model/                         #folder for all our project logic classes
+|   |-- repositories/                  #folder for all our repositories
+|   |-- service/	               #folder for all our service classes needed for our views
+|   |-- AnimalShelterApplication.java  #file for our project initialization
+|
+|-- resources/
+    |-- fxml/		               #folder with all our fxml view files
+    |-- styles/		               #folder with all our css style files
+    |-- application.properties         #file with our application settings
