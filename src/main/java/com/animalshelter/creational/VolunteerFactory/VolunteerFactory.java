@@ -1,4 +1,4 @@
-package com.animalshelter.creational;
+package com.animalshelter.creational.VolunteerFactory;
 
 import com.animalshelter.domain.volunteers.Volunteer;
 import java.util.List;

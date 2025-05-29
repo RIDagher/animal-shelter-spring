@@ -1,4 +1,4 @@
-package com.animalshelter.creational;
+package com.animalshelter.creational.AdoptionsFactory;
 
 import com.animalshelter.domain.animals.Animal;
 import com.animalshelter.domain.adoptions.Adopter;

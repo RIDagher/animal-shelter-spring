@@ -1,4 +1,4 @@
-package com.animalshelter.creational;
+package com.animalshelter.creational.MedicalFactory;
 
 import com.animalshelter.domain.animals.Animal;
 import com.animalshelter.domain.medical.MedicalEntry;
