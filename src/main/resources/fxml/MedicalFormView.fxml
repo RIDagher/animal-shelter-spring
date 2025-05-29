@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animalshelter.controller.MedicalFormController">
     <children>
         <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="10.0" styleClass="navbar" BorderPane.alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="923.0" spacing="10.0" styleClass="navbar" BorderPane.alignment="CENTER_LEFT">
                     <children>
-                        <ImageView fitHeight="43.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" />
-                        <Region prefHeight="43.0" prefWidth="391.0" />
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+                        <Region prefHeight="35.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                         <Hyperlink onAction="#goToHomePage" text="Home" textFill="WHITE" />
-                        <Hyperlink onAction="#goToAdoptions" text="Adoption" textFill="WHITE" />
+                        <Hyperlink onAction="#goToAdoptions" text="Adoptions" textFill="WHITE" />
                         <Hyperlink onAction="#goToVolunteers" text="Volunteers" textFill="WHITE" />
                         <Hyperlink onAction="#goToMedical" text="Medical" textFill="WHITE" />
-                        <Hyperlink onAction="#goToMedicalForm" text="Medical Entry" textFill="WHITE" />
+                        <Hyperlink onAction="#goToMedicalForm" text="Medical Form" textFill="WHITE" />
+                        <Hyperlink onAction="#goToAddAnimal" text="Add Animal" textFill="WHITE" />
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -27,33 +41,35 @@
 
             <center>
                 <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
-                    <Label text="Add Medical Record" styleClass="header-text"/>
+                    <Label styleClass="header-text" text="Add Medical Record" />
 
-                    <GridPane hgap="10" vgap="10">
+                    <GridPane alignment="CENTER" hgap="10" vgap="10">
                         <columnConstraints>
-                            <ColumnConstraints halignment="RIGHT" prefWidth="150.0"/>
-                            <ColumnConstraints prefWidth="250.0"/>
+                            <ColumnConstraints halignment="RIGHT" prefWidth="150.0" />
+                            <ColumnConstraints prefWidth="250.0" />
                         </columnConstraints>
+                        <Label text="Animal:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="animalComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                        <!-- Animal Selection -->
-                        <Label text="Animal:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="animalComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <Label text="Veterinarian:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="vetNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                        <!-- Vet Name -->
-                        <Label text="Veterinarian:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <TextField fx:id="vetNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                        <!-- Date -->
-                        <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                        <!-- Description -->
-                        <Label text="Description:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                        <TextArea fx:id="descriptionArea" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <TextArea fx:id="descriptionArea" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
                     </GridPane>
 
-                    <HBox spacing="10.0" alignment="CENTER">
-                        <Button text="Save Record" onAction="#handleSave" defaultButton="true"/>
-                        <Button text="Cancel" onAction="#goToMedical"/>
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Button defaultButton="true" onAction="#handleSave" text="Save Record" />
+                        <Button onAction="#goToMedical" text="Cancel" />
                     </HBox>
                 </VBox>
             </center>

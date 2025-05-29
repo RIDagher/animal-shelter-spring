@@ -1,9 +1,7 @@
 package com.animalshelter.controller;
 
-import com.animalshelter.domain.volunteers.Task;
 import com.animalshelter.domain.volunteers.Volunteer;
 import com.animalshelter.repositories.VolunteerRepository;
-import com.animalshelter.service.TaskService;
 import com.animalshelter.service.VolunteerService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,14 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,9 +32,6 @@ public class VolunteerController {
 
     @Autowired
     private VolunteerService volunteerService;
-
-    @Autowired
-    private TaskService taskService;
 
     private final ApplicationContext springContext;
 
@@ -52,15 +48,7 @@ public class VolunteerController {
     @FXML private Button searchVolunteerButton;
     @FXML private Button resetButton;
 
-    @FXML private CheckBox cleanCageCheckBox;
-    @FXML private CheckBox feedAnimalCheckBox;
-    @FXML private CheckBox walkDogCheckBox;
-
-    @FXML private Button assignTasksButton;
-
     @FXML private ListView<Volunteer> volunteerList;
-
-    @FXML private ListView<Task> taskList;
 
     /**
      * Initializes the Volunteer view with default behavior.
@@ -70,8 +58,6 @@ public class VolunteerController {
         loadVolunteers();
         setUpSearchHandler();
         setupSelectionListener();
-        setUpAssignTasksHandler();
-
         resetForm();
 
         addVolunteerButton.setOnAction(e -> {
@@ -81,16 +67,13 @@ public class VolunteerController {
 
             if (!name.isEmpty() && !email.isEmpty() && !phone.isEmpty()) {
                 Volunteer newVolunteer = new Volunteer(name, email, phone);
-
                 try {
                     volunteerService.addVolunteer(newVolunteer);
-                    showAlert("Success", "Volunteer added successfully!");
                     loadVolunteers();
                     clearForm();
                 } catch (RuntimeException ex) {
                     volunteerList.getItems().clear();
-                    showAlert("Error", "Failed to add volunteer: " + ex.getMessage());
-                    resetForm();
+                    volunteerList.getItems().add(new Volunteer("Error: " + ex.getMessage(), "", ""));
                 }
             }
         });
@@ -101,33 +84,11 @@ public class VolunteerController {
      */
     private void loadVolunteers() {
         volunteerList.getItems().clear();
-
         try {
-            // Define how each volunteer is displayed in the list
-            volunteerList.setCellFactory(lv -> new ListCell<>() {
-                @Override
-                protected void updateItem(Volunteer volunteer, boolean empty) {
-                    super.updateItem(volunteer, empty);
-                    if (empty || volunteer == null) {
-                        setText(null);
-                    } else {
-                        setText(String.format(
-                                "%s | %s | %s",
-                                volunteer.getName(),
-                                volunteer.getEmail(),
-                                volunteer.getPhone()
-                        ));
-                    }
-                }
-            });
-
-            // Fetch and display the volunteers
             List<Volunteer> volunteers = volunteerService.getAllVolunteers();
             volunteerList.getItems().addAll(volunteers);
-
         } catch (Exception e) {
-            showAlert("Error", "Failed to load volunteers: " + e.getMessage());
-            resetForm();
+            System.out.println("Error loading volunteers: " + e.getMessage());
         }
     }
 
@@ -150,7 +111,7 @@ public class VolunteerController {
                         })
                         .ifPresentOrElse(
                                 volunteerList.getItems()::addAll,
-                                () -> showAlert("Error", "Volunteer not found!")
+                                () -> volunteerList.getItems().add(new Volunteer("No volunteer found", "", ""))
                         );
                 return;
             }
@@ -164,52 +125,9 @@ public class VolunteerController {
             }
 
             // No input
-            showAlert("Error", "Enter a name or email address!");
-            resetForm();
+            volunteerList.getItems().add(new Volunteer("Enter a Name or Email to search", "", ""));
         });
     }
-
-    /**
-     *
-     */
-    private void loadTasksForVolunteer(Volunteer volunteer) {
-        taskList.getItems().clear();
-        List<Task> tasks = taskService.getTasksForVolunteer(volunteer.getVolunteerId());
-        taskList.getItems().addAll(tasks);
-
-        taskList.setCellFactory(lv -> new ListCell<>() {
-            private final Button completeBtn = new Button("Mark Completed");
-
-            {
-                completeBtn.setOnAction(e -> {
-                    Task task = getItem();
-                    taskService.deleteTask(task);
-                    taskList.getItems().remove(task);
-
-
-
-                });
-
-            }
-
-            @Override
-            protected void updateItem(Task task, boolean empty) {
-                super.updateItem(task, empty);
-                if (empty || task == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(task.getDescription() + " - Pending");
-                    setGraphic(completeBtn);
-                }
-
-            }
-
-        });
-    }
-
-
-
 
     /**
      * Sets up a listener that populates the form fields
@@ -219,7 +137,6 @@ public class VolunteerController {
         volunteerList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 populateFormFields(newVal);
-                loadTasksForVolunteer(newVal);
             }
         });
     }
@@ -234,62 +151,12 @@ public class VolunteerController {
     }
 
     /**
-     * Assigns Tasks to Volunteers
-     */
-    private void setUpAssignTasksHandler() {
-        assignTasksButton.setOnAction(e -> {
-            Volunteer selectedVolunteer = volunteerList.getSelectionModel().getSelectedItem();
-            if (selectedVolunteer == null) {
-                volunteerList.getItems().clear();
-                showAlert("Error", "No volunteer selected!");
-                resetForm();
-                return;
-            }
-           List<String> selectedTasks = new ArrayList<>();
-            if (cleanCageCheckBox.isSelected()) selectedTasks.add("Clean Cage");
-            if (feedAnimalCheckBox.isSelected()) selectedTasks.add("Feed Animal");
-            if (walkDogCheckBox.isSelected()) selectedTasks.add("Walk Dog");
-
-            if (selectedTasks.isEmpty()) {
-                volunteerList.getItems().clear();
-                showAlert("Error", "No tasks selected!");
-                resetForm();
-                return;
-            }
-
-            taskService.assignTaskToVolunteer(selectedVolunteer, selectedTasks);
-            showAlert("Success", "Task assigned successfully!" + System.lineSeparator() + selectedTasks + selectedVolunteer.getName());
-            loadVolunteers();
-            clearForm();
-
-        });
-    }
-
-    /**
-     * Method to either show a success message or an error message
-     * @param title
-     * @param message
-     */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-
-
-    /**
      * Clears form fields for a clean input.
      */
     private void clearForm() {
         nameField.clear();
         emailField.clear();
         phoneField.clear();
-        cleanCageCheckBox.setSelected(false);
-        feedAnimalCheckBox.setSelected(false);
-        walkDogCheckBox.setSelected(false);
     }
 
     /**
@@ -301,8 +168,6 @@ public class VolunteerController {
             loadVolunteers();
         });
     }
-
-
 
     // -------- Navigation between views -------- //
 
@@ -331,6 +196,11 @@ public class VolunteerController {
         loadAndShowScene("/fxml/MedicalFormView.fxml", event);
     }
 
+    @FXML
+    private void goToAddAnimal(ActionEvent event) throws IOException {
+        loadAndShowScene("/fxml/AddAnimalView.fxml", event);
+    }
+
     /**
      * Helper method to load FXML views while using Spring context for injection.
      */
@@ -340,10 +210,13 @@ public class VolunteerController {
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setMaximized(true);
-        stage.setMinWidth(1024);
-        stage.setMinHeight(768);
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+
+        stage.setWidth(1024);
+        stage.setHeight(768);
+
         stage.show();
     }
 }
